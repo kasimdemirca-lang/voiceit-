@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1a3a6b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>VoiceIt / Signale / Şikayet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700&display=swap');
+
+  :root {
+    --navy: #0f2952;
+    --blue: #1a4fa0;
+    --blue-mid: #2563c0;
+    --blue-light: #3b82f6;
+    --accent: #e8f0fe;
+    --accent2: #f0f7ff;
+    --red: #dc2626;
+    --green: #16a34a;
+    --yellow: #d97706;
+    --text: #0f172a;
+    --text-sub: #475569;
+    --text-light: #94a3b8;
+    --border: #dbeafe;
+    --bg: #f8faff;
+    --white: #ffffff;
+    --radius: 14px;
+    --shadow: 0 4px 24px rgba(26,79,160,0.10);
+    --shadow-sm: 0 2px 8px rgba(26,79,160,0.07);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    color: white;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(15,41,82,0.3);
+  }
+  .header-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .logo {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #60a5fa;
+    display: inline-block;
+  }
+  .lang-switcher {
+    display: flex;
+    gap: 4px;
+  }
+  .lang-btn {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  .lang-btn.active {
+    background: white;
+    color: var(--blue);
+    border-color: white;
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 60px;
+    z-index: 90;
+  }
+  .nav-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+  }
+  .nav-tab {
+    flex: 1;
+    padding: 14px 8px;
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-sub);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.2px;
+  }
+  .nav-tab.active {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 24px 16px 100px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title-icon {
+    width: 28px; height: 28px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  /* FORM */
+  label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-sub);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  input, select, textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 0.88rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 14px;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--blue-light);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+  }
+  textarea { resize: vertical; min-height: 90px; }
+
+  /* SELECT GRID */
+  .select-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .select-option {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-sub);
+    transition: all 0.2s;
+    background: var(--white);
+  }
+  .select-option:hover { border-color: var(--blue-light); color: var(--blue); }
+  .select-option.selected {
+    border-color: var(--blue);
+    background: var(--accent);
+    color: var(--blue);
+    font-weight: 600;
+  }
+  .select-option .opt-icon { font-size: 1.1rem; }
+
+  /* TOGGLE */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--accent2);
+  }
+  .toggle-row:last-child { border-bottom: none; }
+  .toggle-label { font-size: 0.85rem; color: var(--text); font-weight: 500; }
+  .toggle-sub { font-size: 0.75rem; color: var(--text-light); }
+  .toggle {
+    width: 44px; height: 24px;
+    background: var(--border);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .toggle.on { background: var(--blue); }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    background: white;
+    border-radius: 50%;
+    top: 3px; left: 3px;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .toggle.on::after { transform: translateX(20px); }
+
+  /* PHOTO UPLOAD */
+  .photo-upload {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 14px;
+    color: var(--text-sub);
+    font-size: 0.83rem;
+  }
+  .photo-upload:hover { border-color: var(--blue-light); background: var(--accent2); }
+  .photo-upload .up-icon { font-size: 1.8rem; margin-bottom: 6px; }
+  .photo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .photo-thumb {
+    width: 72px; height: 72px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1.5px solid var(--border);
+    position: relative;
+  }
+  .photo-thumb-wrap {
+    position: relative;
+    width: 72px; height: 72px;
+  }
+  .photo-remove {
+    position: absolute;
+    top: -6px; right: -6px;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px; height: 20px;
+    font-size: 0.65rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #photo-input { display: none; }
+
+  /* LOCATION */
+  .location-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .location-bar input { margin-bottom: 0; flex: 1; }
+  .loc-btn {
+    background: var(--accent);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .loc-btn:hover { background: var(--blue); color: white; border-color: var(--blue); }
+
+  /* AI BOX */
+  .ai-box {
+    background: linear-gradient(135deg, #f0f7ff, #e8f0fe);
+    border: 1.5px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .ai-box-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .ai-box-content {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .ai-routing-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .ai-tag {
+    background: var(--blue);
+    color: white;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  .ai-tag.warn { background: var(--yellow); }
+  .ai-tag.ok { background: var(--green); }
+
+  /* PRIORITY BADGE */
+  .priority-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .priority-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    background: white;
+    transition: all 0.2s;
+  }
+  .priority-btn.low.sel { background: #dcfce7; border-color: var(--green); color: var(--green); }
+  .priority-btn.med.sel { background: #fef9c3; border-color: var(--yellow); color: var(--yellow); }
+  .priority-btn.high.sel { background: #fee2e2; border-color: var(--red); color: var(--red); }
+
+  /* SUBMIT */
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--navy) 100%);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: 'Sora', sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(26,79,160,0.25);
+  }
+  .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,79,160,0.35); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* LOADER */
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* TRACKING */
+  .track-search {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .track-search input { flex: 1; margin-bottom: 0; }
+  .track-search button {
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 16px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* STATUS CARD */
+  .status-card {
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    padding: 18px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .status-id {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 1px;
+  }
+  .status-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+  .status-badge.received { background: #dbeafe; color: #1d4ed8; }
+  .status-badge.review { background: #fef9c3; color: #92400e; }
+  .status-badge.resolved { background: #dcfce7; color: #166534; }
+  .status-badge.rejected { background: #fee2e2; color: #991b1b; }
+  .status-title { font-weight: 600; font-size: 0.88rem; color: var(--text); margin-bottom: 4px; }
+  .status-meta { font-size: 0.75rem; color: var(--text-light); }
+
+  /* TIMELINE */
+  .timeline { margin-top: 14px; padding-left: 4px; }
+  .tl-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .tl-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    flex-shrink: 0;
+    margin-top: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .tl-dot.done { background: var(--green); }
+  .tl-dot.current { background: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.25); }
+  .tl-line {
+    position: absolute;
+    left: 4px;
+    top: 14px;
+    width: 2px;
+    height: calc(100% + 2px);
+    background: var(--border);
+  }
+  .tl-text { font-size: 0.8rem; }
+  .tl-label { font-weight: 600; color: var(--text); }
+  .tl-date { color: var(--text-light); font-size: 0.72rem; }
+
+  /* EMPTY */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-light);
+  }
+  .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .empty-text { font-size: 0.85rem; line-height: 1.6; }
+
+  /* SUCCESS */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .success-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    animation: pop 0.4s ease;
+  }
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .success-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .success-sub { font-size: 0.85rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 20px; }
+  .ref-number {
+    background: var(--accent);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: inline-block;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .new-complaint-btn {
+    background: var(--accent);
+    color: var(--blue);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 24px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* CHARS */
+  .char-count { font-size: 0.72rem; color: var(--text-light); text-align: right; margin-top: -10px; margin-bottom: 14px; }
+
+  /* INFO ROW */
+  .info-note {
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    background: var(--accent2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    line-height: 1.5;
+    border-left: 3px solid var(--blue-light);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      VoiceIt
+    </div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('tr')">TR</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+</div>
+
+<div class="nav-tabs">
+  <div class="nav-inner">
+    <div class="nav-tab active" onclick="showTab('new')" id="tab-new" data-i="nav_new">New Complaint</div>
+    <div class="nav-tab" onclick="showTab('track')" id="tab-track" data-i="nav_track">Track Status</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- NEW COMPLAINT FORM -->
+  <div id="view-new">
+    <div id="form-section">
+
+      <!-- WHO -->
+      <div class="card">
+        <div class="card-title"><div class="card-title-icon">👤</div> <span data-i="sec_who">About You</span></div>
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label" data-i="anon_label">Submit anonymously</div>
+            <div class="toggle-sub" data-i="anon_sub">Your identity will not be shared</div>
+          </div>
+          <div class="toggle" id="anon-toggle" onclick="toggleAnon()"></div>
+        </div>
+        <div id="identity-fields" style="margin-top:14px">
+          <label data-i="lbl_name">Full Name</label>
+          <input type="text" id="inp-name" data-i-ph="ph_name" placeholder="Your name">
+          <label data-i="lbl_email">Email</label>
+          <input type="email" id="inp-email" placeholder="you@email.com">
+          <label data-i="lbl_phone">Phone (optional)</label>
+          <input type="tel" id="inp-phone" data-i-ph="ph_phone" placeholder="+1 (416) 000-0000">
+        </div>
+      </div>
+
+      <!-- TARGET -->
+      <div class="card">
+        <div class="card-title"><div class="card-title-icon">🏛️</div> <span data-i="sec_target">Who is this about?</span></div>
+        <div class="select-grid" id="target-grid">
+          <div class="select-option" data-val="municipal" onclick="selectTarget(this)"><span class="opt-icon">🏙️</span><span data-i="tgt_mun">Municipality</span></div>
+          <div class="select-option" data-val="business" onclick="selectTarget(this)"><span class="opt-icon">🏢</span><span data-i="tgt_biz">Business</span></div>
+          <div class="select-option" data-val="landlord" onclick="selectTarget(this)"><span class="opt-icon">🏠</span><span data-i="tgt_land">Landlord / Property</span></div>
+          <div class="select-option" data-val="other" onclick="selectTarget(this)"><span class="opt-icon">📋</span><span data-i="tgt_other">Other</span></div>
+        </div>
+        <label data-i="lbl_target_name">Name of organization / person</label>
+        <input type="text" id="inp-target" data-i-ph="ph_target" placeholder="e.g. City of Toronto, Apt 42 Management...">
+      </div>
+
+      <!-- CATEGORY -->
+      <div class="card">
+        <div class="card-title"><div class="card-title-icon">📂</div> <span data-i="sec_category">Category</span></div>
+        <select id="inp-category">
+          <option value="" data-i="cat_select">Select a category...</option>
+          <option value="noise" data-i="cat_noise">Noise / Disturbance</option>
+          <option value="safety" data-i="cat_safety">Safety Hazard</option>
+          <option value="garbage" data-i="cat_garbage">Garbage / Cleanliness</option>
+          <option value="discrimination" data-i="cat_disc">Discrimination / Rights</option>
+          <option value="service" data-i="cat_service">Poor Service</option>
+          <option value="billing" data-i="cat_billing">Billing / Overcharge</option>
+          <option value="property" data-i="cat_property">Property Damage</option>
+          <option value="other" data-i="cat_other">Other</option>
+        </select>
+
+        <label data-i="lbl_priority">Priority</label>
+        <div class="priority-row">
+          <div class="priority-btn low" onclick="selectPriority('low',this)" data-i="pri_low">🟢 Low</div>
+          <div class="priority-btn med sel" onclick="selectPriority('medium',this)" data-i="pri_med">🟡 Medium</div>
+          <div class="priority-btn high" onclick="selectPriority('high',this)" data-i="pri_high">🔴 High</div>
+        </div>
+      </div>
+
+      <!-- COMPLAINT -->
+      <div class="card">
+        <div class="card-title"><div class="card-title-icon">📝</div> <span data-i="sec_complaint">Complaint</span></div>
+        <label data-i="lbl_title">Title</label>
+        <input type="text" id="inp-title" data-i-ph="ph_title" placeholder="Brief summary of the issue">
+        <label data-i="lbl_desc">Description</label>
+        <textarea id="inp-desc" data-i-ph="ph_desc" placeholder="Describe what happened, when, and how it affected you..." oninput="updateCharCount()"></textarea>
+        <div class="char-count" id="char-count">0 / 1000</div>
+        <div id="ai-section" style="display:none">
+          <div class="ai-box">
+            <div class="ai-box-title">🤖 <span data-i="ai_label">AI Analysis</span></div>
+            <div class="ai-box-content" id="ai-content" data-i="ai_wait">Analyzing your complaint...</div>
+            <div class="ai-routing-tags" id="ai-tags"></div>
+          </div>
+        </div>
+        <button class="submit-btn" style="background:var(--accent);color:var(--blue);box-shadow:none;margin-bottom:14px;font-size:0.82rem;padding:11px" onclick="runAI()" id="ai-btn" data-i="ai_btn">✨ Improve with AI</button>
+      </div>
+
+      <!-- LOCATION -->
+      <div class="card">
+        <div class="card-title"><div class="card-title-icon">📍</div> <span data-i="sec_location">Location</span></div>
+        <div class="location-bar">
+          <input type="text" id="inp-location" data-i-ph="ph_location" placeholder="Address or area of incident">
+          <button class="loc-btn" onclick="getLocation()" id="loc-btn" title="Use my location">📡</button>
+        </div>
+        <div id="loc-status" style="font-size:0.75rem;color:var(--text-light);margin-top:-10px;margin-bottom:10px;display:none"></div>
+      </div>
+
+      <!-- MEDIA -->
+      <div class="card">
+        <div class="card-title"><div class="card-title-icon">📸</div> <span data-i="sec_media">Evidence</span></div>
+        <div id="photo-grid" class="photo-grid"></div>
+        <div class="photo-upload" onclick="document.getElementById('photo-input').click()">
+          <div class="up-icon">📎</div>
+          <div data-i="media_label">Tap to add photos or videos</div>
+          <div style="font-size:0.72rem;color:var(--text-light);margin-top:4px" data-i="media_sub">JPG, PNG, MP4 — up to 10 files</div>
+        </div>
+        <input type="file" id="photo-input" accept="image/*,video/*" multiple onchange="addPhotos(this)">
+      </div>
+
+      <!-- NOTES -->
+      <div class="info-note" data-i="info_note">
+        By submitting, you confirm that the information provided is accurate to the best of your knowledge. False complaints may have legal consequences.
+      </div>
+
+      <button class="submit-btn" id="submit-btn" onclick="submitComplaint()" data-i="btn_submit">Submit Complaint</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="success-screen">
+      <div class="success-icon">✅</div>
+      <div class="success-title" data-i="suc_title">Complaint Submitted</div>
+      <div class="success-sub" data-i="suc_sub">Your complaint has been received. Use your reference number to track its status.</div>
+      <div class="ref-number" id="ref-display"></div>
+      <br>
+      <button class="new-complaint-btn" onclick="resetForm()" data-i="suc_new">Submit Another</button>
+    </div>
+  </div>
+
+  <!-- TRACKING -->
+  <div id="view-track" style="display:none">
+    <div class="card">
+      <div class="card-title"><div class="card-title-icon">🔍</div> <span data-i="trk_title">Track Your Complaint</span></div>
+      <div class="track-search">
+        <input type="text" id="track-input" data-i-ph="ph_track" placeholder="Enter reference number (e.g. VC-2024-XXXX)">
+        <button onclick="trackComplaint()" data-i="trk_btn">Track</button>
+      </div>
+    </div>
+    <div id="track-result"></div>
+    <div id="recent-complaints"></div>
+  </div>
+
+</div>
+
+<script>
+// ============ TRANSLATIONS ============
+const i18n = {
+  en: {
+    nav_new: "New Complaint", nav_track: "Track Status",
+    sec_who: "About You", anon_label: "Submit anonymously", anon_sub: "Your identity will not be shared",
+    lbl_name: "Full Name", ph_name: "Your name", lbl_email: "Email", lbl_phone: "Phone (optional)", ph_phone: "+1 (416) 000-0000",
+    sec_target: "Who is this about?", tgt_mun: "Municipality", tgt_biz: "Business", tgt_land: "Landlord / Property", tgt_other: "Other",
+    lbl_target_name: "Name of organization / person", ph_target: "e.g. City of Toronto, Apt 42 Management...",
+    sec_category: "Category", cat_select: "Select a category...", cat_noise: "Noise / Disturbance", cat_safety: "Safety Hazard", cat_garbage: "Garbage / Cleanliness", cat_disc: "Discrimination / Rights", cat_service: "Poor Service", cat_billing: "Billing / Overcharge", cat_property: "Property Damage", cat_other: "Other",
+    lbl_priority: "Priority", pri_low: "🟢 Low", pri_med: "🟡 Medium", pri_high: "🔴 High",
+    sec_complaint: "Complaint", lbl_title: "Title", ph_title: "Brief summary of the issue", lbl_desc: "Description", ph_desc: "Describe what happened, when, and how it affected you...",
+    ai_label: "AI Analysis", ai_wait: "Analyzing your complaint...", ai_btn: "✨ Improve with AI",
+    sec_location: "Location", ph_location: "Address or area of incident",
+    sec_media: "Evidence", media_label: "Tap to add photos or videos", media_sub: "JPG, PNG, MP4 — up to 10 files",
+    info_note: "By submitting, you confirm the information is accurate. False complaints may have legal consequences.",
+    btn_submit: "Submit Complaint",
+    suc_title: "Complaint Submitted", suc_sub: "Your complaint has been received. Use your reference number to track its status.", suc_new: "Submit Another",
+    trk_title: "Track Your Complaint", ph_track: "Enter reference number (e.g. VC-2024-XXXX)", trk_btn: "Track",
+    trk_recent: "Your Recent Complaints", trk_empty: "No complaints found for this reference number.",
+    status_received: "Received", status_review: "Under Review", status_resolved: "Resolved", status_rejected: "Rejected",
+    tl_received: "Complaint received", tl_review: "Under review", tl_resolved: "Resolved", tl_rejected: "Rejected",
+    loc_detecting: "Detecting your location...", loc_done: "Location detected"
+  },
+  tr: {
+    nav_new: "Yeni Şikayet", nav_track: "Durum Takibi",
+    sec_who: "Hakkınızda", anon_label: "Anonim gönder", anon_sub: "Kimliğiniz paylaşılmayacak",
+    lbl_name: "Ad Soyad", ph_name: "Adınız", lbl_email: "E-posta", lbl_phone: "Telefon (isteğe bağlı)", ph_phone: "+1 (416) 000-0000",
+    sec_target: "Bu şikayet kime yönelik?", tgt_mun: "Belediye", tgt_biz: "İşletme", tgt_land: "Ev Sahibi / Mülk", tgt_other: "Diğer",
+    lbl_target_name: "Kurum / kişi adı", ph_target: "ör. Toronto Belediyesi, Apt 42 Yönetimi...",
+    sec_category: "Kategori", cat_select: "Kategori seçin...", cat_noise: "Gürültü / Rahatsızlık", cat_safety: "Güvenlik Tehlikesi", cat_garbage: "Çöp / Temizlik", cat_disc: "Ayrımcılık / Haklar", cat_service: "Kötü Hizmet", cat_billing: "Fatura / Fazla Ücret", cat_property: "Mülk Hasarı", cat_other: "Diğer",
+    lbl_priority: "Öncelik", pri_low: "🟢 Düşük", pri_med: "🟡 Orta", pri_high: "🔴 Yüksek",
+    sec_complaint: "Şikayet", lbl_title: "Başlık", ph_title: "Sorunu kısaca özetle", lbl_desc: "Açıklama", ph_desc: "Ne olduğunu, ne zaman olduğunu ve sizi nasıl etkilediğini açıklayın...",
+    ai_label: "Yapay Zeka Analizi", ai_wait: "Şikayetiniz analiz ediliyor...", ai_btn: "✨ Yapay Zeka ile İyileştir",
+    sec_location: "Konum", ph_location: "Olayın adresi veya bölgesi",
+    sec_media: "Kanıt", media_label: "Fotoğraf veya video ekleyin", media_sub: "JPG, PNG, MP4 — en fazla 10 dosya",
+    info_note: "Gönderilerek, bilgilerin doğru olduğunu onaylıyorsunuz. Asılsız şikayetlerin yasal sonuçları olabilir.",
+    btn_submit: "Şikayeti Gönder",
+    suc_title: "Şikayet Gönderildi", suc_sub: "Şikayetiniz alındı. Durumunu takip etmek için referans numaranızı kullanın.", suc_new: "Yeni Şikayet",
+    trk_title: "Şikayetinizi Takip Edin", ph_track: "Referans numarası girin (ör. VC-2024-XXXX)", trk_btn: "Sorgula",
+    trk_recent: "Son Şikayetleriniz", trk_empty: "Bu referans numarası için şikayet bulunamadı.",
+    status_received: "Alındı", status_review: "İncelemede", status_resolved: "Çözüldü", status_rejected: "Reddedildi",
+    tl_received: "Şikayet alındı", tl_review: "İncelemeye alındı", tl_resolved: "Çözüldü", tl_rejected: "Reddedildi",
+    loc_detecting: "Konumunuz tespit ediliyor...", loc_done: "Konum tespit edildi"
+  },
+  fr: {
+    nav_new: "Nouvelle Plainte", nav_track: "Suivi",
+    sec_who: "À votre sujet", anon_label: "Soumettre anonymement", anon_sub: "Votre identité ne sera pas partagée",
+    lbl_name: "Nom complet", ph_name: "Votre nom", lbl_email: "Courriel", lbl_phone: "Téléphone (optionnel)", ph_phone: "+1 (416) 000-0000",
+    sec_target: "À qui s'adresse cette plainte?", tgt_mun: "Municipalité", tgt_biz: "Entreprise", tgt_land: "Propriétaire / Immeuble", tgt_other: "Autre",
+    lbl_target_name: "Nom de l'organisation / personne", ph_target: "ex. Ville de Toronto, Gestion Apt 42...",
+    sec_category: "Catégorie", cat_select: "Sélectionner une catégorie...", cat_noise: "Bruit / Perturbation", cat_safety: "Danger pour la sécurité", cat_garbage: "Déchets / Propreté", cat_disc: "Discrimination / Droits", cat_service: "Mauvais service", cat_billing: "Facturation / Surfacturation", cat_property: "Dommages matériels", cat_other: "Autre",
+    lbl_priority: "Priorité", pri_low: "🟢 Faible", pri_med: "🟡 Moyenne", pri_high: "🔴 Élevée",
+    sec_complaint: "Plainte", lbl_title: "Titre", ph_title: "Résumé bref du problème", lbl_desc: "Description", ph_desc: "Décrivez ce qui s'est passé, quand et comment cela vous a affecté...",
+    ai_label: "Analyse IA", ai_wait: "Analyse de votre plainte...", ai_btn: "✨ Améliorer avec l'IA",
+    sec_location: "Lieu", ph_location: "Adresse ou zone de l'incident",
+    sec_media: "Preuves", media_label: "Ajouter des photos ou vidéos", media_sub: "JPG, PNG, MP4 — jusqu'à 10 fichiers",
+    info_note: "En soumettant, vous confirmez que les informations sont exactes. Les fausses plaintes peuvent avoir des conséquences légales.",
+    btn_submit: "Soumettre la plainte",
+    suc_title: "Plainte soumise", suc_sub: "Votre plainte a été reçue. Utilisez votre numéro de référence pour suivre son état.", suc_new: "Nouvelle plainte",
+    trk_title: "Suivre votre plainte", ph_track: "Entrer le numéro de référence (ex. VC-2024-XXXX)", trk_btn: "Rechercher",
+    trk_recent: "Vos plaintes récentes", trk_empty: "Aucune plainte trouvée pour ce numéro.",
+    status_received: "Reçue", status_review: "En cours d'examen", status_resolved: "Résolue", status_rejected: "Rejetée",
+    tl_received: "Plainte reçue", tl_review: "En cours d'examen", tl_resolved: "Résolue", tl_rejected: "Rejetée",
+    loc_detecting: "Détection de votre position...", loc_done: "Position détectée"
+  }
+};
+
+let lang = 'en';
+let isAnon = false;
+let selectedTarget = '';
+let selectedPriority = 'medium';
+let photos = [];
+let complaints = JSON.parse(localStorage.getItem('voiceit_complaints') || '[]');
+
+function t(key) { return (i18n[lang] && i18n[lang][key]) || i18n.en[key] || key; }
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${l}')"]`).classList.add('active');
+  applyTranslations();
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i]').forEach(el => {
+    const key = el.getAttribute('data-i');
+    el.textContent = t(key);
+  });
+  document.querySelectorAll('[data-i-ph]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i-ph'));
+  });
+  // select options
+  document.querySelectorAll('option[data-i]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i'));
+  });
+}
+
+// ============ TAB ============
+function showTab(tab) {
+  document.getElementById('view-new').style.display = tab === 'new' ? '' : 'none';
+  document.getElementById('view-track').style.display = tab === 'track' ? '' : 'none';
+  document.getElementById('tab-new').classList.toggle('active', tab === 'new');
+  document.getElementById('tab-track').classList.toggle('active', tab === 'track');
+  if (tab === 'track') renderRecentComplaints();
+}
+
+// ============ ANON ============
+function toggleAnon() {
+  isAnon = !isAnon;
+  document.getElementById('anon-toggle').classList.toggle('on', isAnon);
+  document.getElementById('identity-fields').style.display = isAnon ? 'none' : '';
+}
+
+// ============ TARGET ============
+function selectTarget(el) {
+  document.querySelectorAll('#target-grid .select-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedTarget = el.getAttribute('data-val');
+}
+
+// ============ PRIORITY ============
+function selectPriority(p, el) {
+  document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  selectedPriority = p;
+}
+
+// ============ CHAR COUNT ============
+function updateCharCount() {
+  const l = document.getElementById('inp-desc').value.length;
+  document.getElementById('char-count').textContent = `${l} / 1000`;
+}
+
+// ============ LOCATION ============
+function getLocation() {
+  const status = document.getElementById('loc-status');
+  status.style.display = 'block';
+  status.textContent = t('loc_detecting');
+  const btn = document.getElementById('loc-btn');
+  btn.textContent = '⏳';
+  navigator.geolocation.getCurrentPosition(pos => {
+    const { latitude, longitude } = pos.coords;
+    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
+      .then(r => r.json())
+      .then(d => {
+        const addr = d.display_name || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+        document.getElementById('inp-location').value = addr;
+        status.textContent = t('loc_done') + ' ✓';
+        btn.textContent = '✅';
+      })
+      .catch(() => {
+        document.getElementById('inp-location').value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+        status.textContent = t('loc_done') + ' ✓';
+        btn.textContent = '✅';
+      });
+  }, () => {
+    status.textContent = 'Location access denied.';
+    btn.textContent = '📡';
+  });
+}
+
+// ============ PHOTOS ============
+function addPhotos(input) {
+  const files = Array.from(input.files);
+  if (photos.length + files.length > 10) { alert('Max 10 files'); return; }
+  files.forEach(f => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      photos.push({ name: f.name, data: e.target.result, type: f.type });
+      renderPhotos();
+    };
+    reader.readAsDataURL(f);
+  });
+  input.value = '';
+}
+
+function removePhoto(i) {
+  photos.splice(i, 1);
+  renderPhotos();
+}
+
+function renderPhotos() {
+  const grid = document.getElementById('photo-grid');
+  grid.innerHTML = photos.map((p, i) => `
+    <div class="photo-thumb-wrap">
+      <img class="photo-thumb" src="${p.data}" alt="${p.name}">
+      <button class="photo-remove" onclick="removePhoto(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+// ============ AI ============
+async function runAI() {
+  const desc = document.getElementById('inp-desc').value.trim();
+  const title = document.getElementById('inp-title').value.trim();
+  const category = document.getElementById('inp-category').value;
+  const target = selectedTarget;
+
+  if (!desc || desc.length < 20) {
+    alert(lang === 'tr' ? 'Lütfen önce şikayetinizi yazın (en az 20 karakter).' : lang === 'fr' ? 'Veuillez d\'abord écrire votre plainte (20 caractères min).' : 'Please write your complaint first (at least 20 characters).');
+    return;
+  }
+
+  const btn = document.getElementById('ai-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>' + t('ai_wait');
+  document.getElementById('ai-section').style.display = 'block';
+  document.getElementById('ai-content').textContent = t('ai_wait');
+  document.getElementById('ai-tags').innerHTML = '';
+
+  const systemPrompt = `You are a complaint assistant for Canadian residents. Your job is to:
+1. Improve the complaint text to be clear, professional, and factual (in the same language as the input)
+2. Suggest the best authority to route it to in Canada
+3. Assess the complaint priority
+
+Respond ONLY with this JSON (no markdown, no backticks):
+{
+  "improved_text": "...",
+  "routing": ["Agency 1", "Agency 2"],
+  "routing_reason": "One sentence explanation",
+  "priority": "low|medium|high",
+  "sentiment": "formal|urgent|neutral"
+}`;
+
+  const userPrompt = `Language: ${lang}
+Target: ${target || 'unknown'}
+Category: ${category || 'unknown'}
+Title: ${title}
+Complaint: ${desc}`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content.map(c => c.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    document.getElementById('inp-desc').value = result.improved_text || desc;
+    updateCharCount();
+
+    const routingHTML = (result.routing || []).map(r => `<span class="ai-tag ok">${r}</span>`).join('') +
+      `<span class="ai-tag warn">${result.priority?.toUpperCase() || 'MEDIUM'}</span>`;
+    document.getElementById('ai-tags').innerHTML = routingHTML;
+
+    document.getElementById('ai-content').textContent = result.routing_reason || '';
+
+    btn.innerHTML = '✨ ' + (lang === 'tr' ? 'Tekrar İyileştir' : lang === 'fr' ? 'Améliorer encore' : 'Improve Again');
+    btn.disabled = false;
+  } catch (e) {
+    document.getElementById('ai-content').textContent = 'AI analysis failed. Please try again.';
+    btn.innerHTML = '✨ ' + t('ai_btn').replace('✨ ', '');
+    btn.disabled = false;
+  }
+}
+
+// ============ SUBMIT ============
+function generateRef() {
+  const year = new Date().getFullYear();
+  const code = Math.random().toString(36).toUpperCase().substring(2, 7);
+  return `VC-${year}-${code}`;
+}
+
+function submitComplaint() {
+  const title = document.getElementById('inp-title').value.trim();
+  const desc = document.getElementById('inp-desc').value.trim();
+  const category = document.getElementById('inp-category').value;
+
+  if (!title || !desc || !category) {
+    alert(lang === 'tr' ? 'Lütfen başlık, açıklama ve kategori alanlarını doldurun.' : lang === 'fr' ? 'Veuillez remplir le titre, la description et la catégorie.' : 'Please fill in title, description, and category.');
+    return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>' + (lang === 'tr' ? 'Gönderiliyor...' : lang === 'fr' ? 'Envoi...' : 'Submitting...');
+
+  const ref = generateRef();
+  const complaint = {
+    ref,
+    title,
+    desc,
+    category,
+    target: selectedTarget,
+    targetName: document.getElementById('inp-target').value.trim(),
+    priority: selectedPriority,
+    location: document.getElementById('inp-location').value.trim(),
+    anonymous: isAnon,
+    name: isAnon ? null : document.getElementById('inp-name').value.trim(),
+    email: isAnon ? null : document.getElementById('inp-email').value.trim(),
+    photoCount: photos.length,
+    status: 'received',
+    date: new Date().toISOString(),
+    timeline: [{ status: 'received', date: new Date().toISOString() }]
+  };
+
+  complaints.unshift(complaint);
+  localStorage.setItem('voiceit_complaints', JSON.stringify(complaints));
+
+  // Firebase kaydet
+  const doSave = async () => {
+    if (window.submitComplaintFirebase) {
+      try { await window.submitComplaintFirebase(complaint); }
+      catch(e) { console.warn('Firebase hata:', e); }
+    }
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    document.getElementById('ref-display').textContent = ref;
+    btn.disabled = false;
+    btn.textContent = t('btn_submit');
+  };
+  doSave();
+}
+
+function resetForm() {
+  document.getElementById('form-section').style.display = '';
+  document.getElementById('success-screen').style.display = 'none';
+  document.getElementById('inp-title').value = '';
+  document.getElementById('inp-desc').value = '';
+  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-email').value = '';
+  document.getElementById('inp-phone').value = '';
+  document.getElementById('inp-target').value = '';
+  document.getElementById('inp-location').value = '';
+  document.getElementById('inp-category').value = '';
+  document.getElementById('ai-section').style.display = 'none';
+  photos = [];
+  renderPhotos();
+  updateCharCount();
+  document.querySelectorAll('#target-grid .select-option').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('sel'));
+  document.querySelector('.priority-btn.med').classList.add('sel');
+  selectedTarget = ''; selectedPriority = 'medium';
+  isAnon = false;
+  document.getElementById('anon-toggle').classList.remove('on');
+  document.getElementById('identity-fields').style.display = '';
+}
+
+// ============ TRACKING ============
+async function trackComplaint() {
+  const ref = document.getElementById('track-input').value.trim().toUpperCase();
+  const result = document.getElementById('track-result');
+  result.innerHTML = '<div class="empty-state"><div class="empty-icon">⏳</div><div class="empty-text">Aranıyor...</div></div>';
+
+  // Önce Firebase'de ara
+  let found = null;
+  if (window.trackComplaintFirebase) {
+    try { found = await window.trackComplaintFirebase(ref); } catch(e) {}
+  }
+  // Bulamazsa localStorage'da ara
+  if (!found) found = complaints.find(c => c.ref === ref);
+
+  if (!found) {
+    result.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">${t('trk_empty')}</div></div>`;
+    return;
+  }
+  result.innerHTML = renderStatusCard(found);
+}
+
+function statusLabel(s) {
+  const map = { received: 'status_received', review: 'status_review', resolved: 'status_resolved', rejected: 'status_rejected' };
+  return t(map[s] || 'status_received');
+}
+function tlLabel(s) {
+  const map = { received: 'tl_received', review: 'tl_review', resolved: 'tl_resolved', rejected: 'tl_rejected' };
+  return t(map[s] || 'tl_received');
+}
+
+function renderStatusCard(c) {
+  const date = new Date(c.date).toLocaleDateString(lang === 'tr' ? 'tr-TR' : lang === 'fr' ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'short', day: 'numeric' });
+  const tl = (c.timeline || []).map((item, i, arr) => `
+    <div class="tl-item">
+      ${i < arr.length - 1 ? '<div class="tl-line"></div>' : ''}
+      <div class="tl-dot ${i === arr.length - 1 ? 'current' : 'done'}"></div>
+      <div class="tl-text">
+        <div class="tl-label">${tlLabel(item.status)}</div>
+        <div class="tl-date">${new Date(item.date).toLocaleDateString()}</div>
+      </div>
+    </div>
+  `).join('');
+
+  return `
+    <div class="status-card">
+      <div class="status-header">
+        <div>
+          <div class="status-id">${c.ref}</div>
+          <div class="status-title">${c.title}</div>
+          <div class="status-meta">${date} · ${c.targetName || c.target || '—'}</div>
+        </div>
+        <span class="status-badge ${c.status}">${statusLabel(c.status)}</span>
+      </div>
+      <div class="timeline">${tl}</div>
+    </div>
+  `;
+}
+
+function renderRecentComplaints() {
+  const el = document.getElementById('recent-complaints');
+  if (!complaints.length) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="card-title" style="padding:0 4px;margin-bottom:10px"><div class="card-title-icon">🗂️</div><span>${t('trk_recent')}</span></div>` +
+    complaints.slice(0, 5).map(c => renderStatusCard(c)).join('');
+}
+
+// ============ INIT ============
+applyTranslations();
+</script>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDtK_bODD77BICh9O1DfhPMf2ENOcwWx8g",
+  authDomain: "ajan-d6070.firebaseapp.com",
+  projectId: "ajan-d6070",
+  storageBucket: "ajan-d6070.firebasestorage.app",
+  messagingSenderId: "515187402821",
+  appId: "1:515187402821:web:7e30467e03fd54d4a1db2c",
+  measurementId: "G-LNW0LJL3KF"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Firebase'i global olarak kullanılabilir yap
+window.db = db;
+window.fsCollection = collection;
+window.fsAddDoc = addDoc;
+window.fsQuery = query;
+window.fsWhere = where;
+window.fsGetDocs = getDocs;
+window.fsOrderBy = orderBy;
+window.fsLimit = limit;
+window.firebaseReady = true;
+
+// Şikayet gönderme — Firebase versiyonu
+window.submitComplaintFirebase = async function(complaint) {
+  const ref = collection(db, 'complaints');
+  await addDoc(ref, complaint);
+};
+
+// Şikayet takip — Firebase versiyonu
+window.trackComplaintFirebase = async function(refCode) {
+  const q = query(collection(db, 'complaints'), where('ref', '==', refCode), limit(1));
+  const snap = await getDocs(q);
+  if (snap.empty) return null;
+  return snap.docs[0].data();
+};
+
+// Son şikayetleri getir (email'e göre)
+window.getRecentFirebase = async function(email) {
+  if (!email) return [];
+  const q = query(collection(db, 'complaints'), where('email', '==', email), orderBy('date', 'desc'), limit(5));
+  const snap = await getDocs(q);
+  return snap.docs.map(d => d.data());
+};
+
+console.log('✅ Firebase Firestore bağlandı');
+</script>
+</body>
+</html>
