@@ -2,728 +2,899 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#0f2952">
-<title>VoiceIt — Official Complaint Platform</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ComplaintCA — Canada's Official Complaint Platform</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@500;600;700;800&display=swap');
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --navy:   #0f2952;
-  --blue:   #1a4fa0;
-  --mid:    #2563c0;
-  --light:  #3b82f6;
-  --ice:    #e8f0fe;
-  --white:  #ffffff;
-  --off:    #f4f7ff;
-  --text:   #0f172a;
-  --sub:    #475569;
-  --muted:  #94a3b8;
-  --border: #dbeafe;
-  --green:  #16a34a;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--white);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
-/* ── HEADER ─────────────────────────────── */
-.topbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 200;
-  background: rgba(15,41,82,0.97);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-.topbar-inner {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 0 24px;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.logo {
-  font-family: 'Sora', sans-serif;
-  font-weight: 700;
-  font-size: 1.15rem;
-  color: white;
-  letter-spacing: -0.4px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-}
-.logo-mark {
-  width: 30px; height: 30px;
-  background: linear-gradient(135deg, #3b82f6, #1a4fa0);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-}
-.lang-row {
-  display: flex;
-  gap: 4px;
-}
-.lang-pill {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.18);
-  color: rgba(255,255,255,0.6);
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.18s;
-}
-.lang-pill:hover, .lang-pill.on {
-  background: white;
-  color: var(--navy);
-  border-color: white;
-}
-
-/* ── HERO ────────────────────────────────── */
-.hero {
-  min-height: 100svh;
-  background: linear-gradient(160deg, var(--navy) 0%, #163a7a 55%, #1a4fa0 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 100px 24px 60px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Subtle grid overlay */
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
-  pointer-events: none;
-}
-
-/* Glow orb */
-.hero-orb {
-  position: absolute;
-  width: 480px; height: 480px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.09);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 24px;
-  padding: 6px 16px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: rgba(255,255,255,0.75);
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  margin-bottom: 28px;
-  position: relative;
-}
-.eyebrow-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #60a5fa;
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
-}
-
-.hero-title {
-  font-family: 'Sora', sans-serif;
-  font-size: clamp(2rem, 6vw, 3.4rem);
-  font-weight: 800;
-  color: white;
-  line-height: 1.12;
-  letter-spacing: -1px;
-  max-width: 680px;
-  margin-bottom: 20px;
-  position: relative;
-}
-.hero-title em {
-  font-style: normal;
-  color: #93c5fd;
-}
-
-.hero-sub {
-  font-size: clamp(0.9rem, 2vw, 1.05rem);
-  color: rgba(255,255,255,0.6);
-  max-width: 480px;
-  line-height: 1.7;
-  margin-bottom: 44px;
-  position: relative;
-}
-
-.hero-cta-group {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  position: relative;
-}
-.btn-primary {
-  background: white;
-  color: var(--navy);
-  font-family: 'Sora', sans-serif;
-  font-weight: 700;
-  font-size: 0.92rem;
-  padding: 14px 32px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  letter-spacing: -0.2px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-}
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
-.btn-secondary {
-  background: rgba(255,255,255,0.1);
-  color: white;
-  font-family: 'Sora', sans-serif;
-  font-weight: 600;
-  font-size: 0.92rem;
-  padding: 14px 28px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.2);
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s;
-}
-.btn-secondary:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.35); }
-
-/* Scroll cue */
-.scroll-cue {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  color: rgba(255,255,255,0.3);
-  font-size: 0.65rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.scroll-arrow {
-  width: 20px; height: 30px;
-  border: 1.5px solid rgba(255,255,255,0.2);
-  border-radius: 10px;
-  position: relative;
-}
-.scroll-arrow::after {
-  content: '';
-  position: absolute;
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.4);
-  top: 5px; left: 50%;
-  transform: translateX(-50%);
-  animation: scrolldot 1.6s ease-in-out infinite;
-}
-@keyframes scrolldot {
-  0% { top: 5px; opacity: 1; }
-  80% { top: 16px; opacity: 0; }
-  100% { top: 5px; opacity: 0; }
-}
-
-/* ── TRUST BAR ───────────────────────────── */
-.trust-bar {
-  background: var(--off);
-  border-bottom: 1px solid var(--border);
-  padding: 18px 24px;
-}
-.trust-inner {
-  max-width: 820px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.78rem;
-  color: var(--sub);
-  font-weight: 500;
-}
-.trust-icon { font-size: 1rem; }
-
-/* ── HOW IT WORKS ────────────────────────── */
-.section {
-  padding: 80px 24px;
-  max-width: 860px;
-  margin: 0 auto;
-}
-.section-eyebrow {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--light);
-  margin-bottom: 12px;
-}
-.section-title {
-  font-family: 'Sora', sans-serif;
-  font-size: clamp(1.5rem, 4vw, 2.1rem);
-  font-weight: 700;
-  color: var(--navy);
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-  margin-bottom: 12px;
-}
-.section-sub {
-  font-size: 0.92rem;
-  color: var(--sub);
-  line-height: 1.7;
-  max-width: 520px;
-  margin-bottom: 52px;
-}
-
-/* Steps */
-.steps {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  position: relative;
-}
-/* Vertical connector line */
-.steps::before {
-  content: '';
-  position: absolute;
-  left: 27px;
-  top: 54px;
-  bottom: 54px;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--border), var(--border));
-}
-
-.step {
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-  padding: 28px 0;
-  position: relative;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.step.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.step-num {
-  width: 56px; height: 56px;
-  border-radius: 16px;
-  background: var(--navy);
-  color: white;
-  font-family: 'Sora', sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 4px 16px rgba(15,41,82,0.2);
-}
-.step:nth-child(2) .step-num { background: var(--blue); }
-.step:nth-child(3) .step-num { background: var(--mid); }
-.step:nth-child(4) .step-num { background: var(--light); }
-
-.step-body { flex: 1; padding-top: 10px; }
-.step-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-.step-title {
-  font-family: 'Sora', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 6px;
-  letter-spacing: -0.3px;
-}
-.step-desc {
-  font-size: 0.85rem;
-  color: var(--sub);
-  line-height: 1.65;
-}
-.step-chip {
-  display: inline-block;
-  margin-top: 10px;
-  background: var(--ice);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 3px 12px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--blue);
-}
-
-/* ── DIVIDER ─────────────────────────────── */
-.divider {
-  height: 1px;
-  background: var(--border);
-  max-width: 860px;
-  margin: 0 auto;
-}
-
-/* ── BOTTOM CTA ──────────────────────────── */
-.bottom-cta {
-  background: linear-gradient(135deg, var(--navy), var(--blue));
-  padding: 72px 24px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.bottom-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-.bottom-cta-title {
-  font-family: 'Sora', sans-serif;
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 700;
-  color: white;
-  letter-spacing: -0.5px;
-  margin-bottom: 12px;
-  position: relative;
-}
-.bottom-cta-sub {
-  font-size: 0.92rem;
-  color: rgba(255,255,255,0.6);
-  margin-bottom: 32px;
-  position: relative;
-}
-.bottom-cta .btn-primary { position: relative; }
-
-/* ── FOOTER ──────────────────────────────── */
-footer {
-  background: var(--navy);
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 24px;
-  text-align: center;
-}
-.footer-inner {
-  max-width: 860px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.footer-logo {
-  font-family: 'Sora', sans-serif;
-  font-weight: 700;
-  color: rgba(255,255,255,0.5);
-  font-size: 0.88rem;
-}
-.footer-note {
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.25);
-}
-
-/* ── MOBILE ──────────────────────────────── */
-@media (max-width: 600px) {
-  .steps::before { left: 23px; }
-  .step-num { width: 46px; height: 46px; font-size: 0.95rem; border-radius: 12px; }
-  .trust-inner { gap: 16px; }
-  .hero-cta-group { flex-direction: column; align-items: center; }
-  .btn-primary, .btn-secondary { width: 260px; justify-content: center; }
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#f8faff;color:#0f172a;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+:root{--navy:#0f2952;--blue:#1a4fa0;--mid:#2563c0;--light:#3b82f6;--ice:#e8f0fe;--acc2:#f0f7ff;--white:#fff;--off:#f4f7ff;--text:#0f172a;--sub:#475569;--muted:#94a3b8;--border:#dbeafe;--green:#16a34a;--red:#dc2626;--yellow:#d97706;--radius:14px;--shsm:0 2px 8px rgba(26,79,160,.07)}
+#pg-land{display:block}#pg-app{display:none}
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(15,41,82,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)}
+.topbar-inner{max-width:1080px;margin:0 auto;padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Sora',sans-serif;font-weight:700;font-size:1.1rem;color:white;display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:none}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,#1a4fa0,#0f2952);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.back-btn{display:none;align-items:center;gap:6px;color:rgba(255,255,255,.7);font-size:.8rem;font-weight:600;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif}
+.back-btn:hover{color:white}.back-btn.show{display:flex}
+.lp{font-size:.7rem;font-weight:600;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.6);background:transparent;cursor:pointer;transition:all .18s}
+.lp:hover,.lp.on{background:white;color:var(--navy);border-color:white}
+/* LANDING */
+.hero{min-height:100svh;background:linear-gradient(160deg,var(--navy) 0%,#163a7a 55%,#1a4fa0 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hero-orb{position:absolute;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.18) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:6px 16px;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:.8px;text-transform:uppercase;margin-bottom:28px;position:relative}
+.edot{width:6px;height:6px;border-radius:50%;background:#60a5fa;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-title{font-family:'Sora',sans-serif;font-size:clamp(2rem,6vw,3.2rem);font-weight:800;color:white;line-height:1.12;letter-spacing:-1px;max-width:680px;margin-bottom:20px;position:relative}
+.hero-title em{font-style:normal;color:#93c5fd}
+.hero-sub{font-size:clamp(.88rem,2vw,1rem);color:rgba(255,255,255,.6);max-width:480px;line-height:1.7;margin-bottom:44px;position:relative}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative}
+.btn-w{background:white;color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;font-size:.92rem;padding:14px 32px;border-radius:10px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.btn-w:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.btn-o{background:rgba(255,255,255,.1);color:white;font-family:'Sora',sans-serif;font-weight:600;font-size:.92rem;padding:14px 28px;border-radius:10px;border:1px solid rgba(255,255,255,.2);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.btn-o:hover{background:rgba(255,255,255,.15)}
+.scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,.3);font-size:.65rem;letter-spacing:1px;text-transform:uppercase}
+.sa{width:20px;height:30px;border:1.5px solid rgba(255,255,255,.2);border-radius:10px;position:relative}
+.sa::after{content:'';position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.4);top:5px;left:50%;transform:translateX(-50%);animation:sd 1.6s ease-in-out infinite}
+@keyframes sd{0%{top:5px;opacity:1}80%{top:16px;opacity:0}100%{top:5px;opacity:0}}
+.trust-bar{background:var(--off);border-bottom:1px solid var(--border);padding:18px 24px}
+.trust-inner{max-width:820px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--sub);font-weight:500}
+.ls{padding:80px 24px;max-width:860px;margin:0 auto}
+.s-eye{font-size:.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--light);margin-bottom:12px}
+.s-title{font-family:'Sora',sans-serif;font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700;color:var(--navy);letter-spacing:-.5px;line-height:1.2;margin-bottom:12px}
+.s-sub{font-size:.92rem;color:var(--sub);line-height:1.7;max-width:520px;margin-bottom:52px}
+.steps{display:flex;flex-direction:column;position:relative}
+.steps::before{content:'';position:absolute;left:27px;top:54px;bottom:54px;width:2px;background:var(--border)}
+.step{display:flex;gap:24px;align-items:flex-start;padding:28px 0;position:relative;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.step.vis{opacity:1;transform:translateY(0)}
+.sn{width:56px;height:56px;border-radius:16px;background:var(--navy);color:white;font-family:'Sora',sans-serif;font-weight:700;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;box-shadow:0 4px 16px rgba(15,41,82,.2)}
+.step:nth-child(2) .sn{background:var(--blue)}.step:nth-child(3) .sn{background:var(--mid)}.step:nth-child(4) .sn{background:var(--light)}
+.sb{flex:1;padding-top:10px}
+.sl{font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.st{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:6px;letter-spacing:-.3px}
+.sd-t{font-size:.85rem;color:var(--sub);line-height:1.65}
+.sc{display:inline-block;margin-top:10px;background:var(--ice);border:1px solid var(--border);border-radius:20px;padding:3px 12px;font-size:.72rem;font-weight:600;color:var(--blue)}
+.ldiv{height:1px;background:var(--border);max-width:860px;margin:0 auto}
+.bcta{background:linear-gradient(135deg,var(--navy),var(--blue));padding:72px 24px;text-align:center;position:relative;overflow:hidden}
+.bcta::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px}
+.bcta-t{font-family:'Sora',sans-serif;font-size:clamp(1.5rem,4vw,2rem);font-weight:700;color:white;letter-spacing:-.5px;margin-bottom:12px;position:relative}
+.bcta-s{font-size:.92rem;color:rgba(255,255,255,.6);margin-bottom:32px;position:relative}
+.bcta .btn-w{position:relative}
+footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.06);padding:24px}
+.fi{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.flogo{font-family:'Sora',sans-serif;font-weight:700;color:rgba(255,255,255,.5);font-size:.88rem}
+.fnote{font-size:.72rem;color:rgba(255,255,255,.25)}
+/* APP */
+.nav-tabs{background:white;border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:90}
+.nav-inner{max-width:680px;margin:0 auto;display:flex}
+.nav-tab{flex:1;padding:14px 8px;text-align:center;font-size:.78rem;font-weight:600;color:var(--sub);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.amain{max-width:680px;margin:0 auto;padding:24px 16px 100px}
+.card{background:white;border-radius:var(--radius);box-shadow:var(--shsm);border:1px solid var(--border);padding:20px;margin-bottom:16px}
+.ct{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ci{width:28px;height:28px;background:var(--ice);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+label{display:block;font-size:.78rem;font-weight:600;color:var(--sub);margin-bottom:6px;letter-spacing:.3px;text-transform:uppercase}
+input,select,textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:.88rem;font-family:'Inter',sans-serif;color:var(--text);background:white;outline:none;transition:border-color .2s,box-shadow .2s;margin-bottom:14px;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--light);box-shadow:0 0 0 3px rgba(59,130,246,.12)}
+textarea{resize:vertical;min-height:90px}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.sopt{border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:.8rem;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;color:var(--sub);transition:all .2s;background:white}
+.sopt:hover{border-color:var(--light);color:var(--blue)}
+.sopt.sel{border-color:var(--blue);background:var(--ice);color:var(--blue);font-weight:600}
+.trow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--acc2)}
+.trow:last-child{border-bottom:none}
+.tlbl{font-size:.85rem;color:var(--text);font-weight:500}
+.tsub{font-size:.75rem;color:var(--muted)}
+.tog{width:44px;height:24px;background:var(--border);border-radius:12px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.tog.on{background:var(--blue)}
+.tog::after{content:'';position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.tog.on::after{transform:translateX(20px)}
+.pup{border:2px dashed var(--border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px;color:var(--sub);font-size:.83rem}
+.pup:hover{border-color:var(--light);background:var(--acc2)}
+.pup .ui{font-size:1.8rem;margin-bottom:6px}
+.pgrid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.pthumb{width:72px;height:72px;border-radius:8px;object-fit:cover;border:1.5px solid var(--border)}
+.ptwrap{position:relative;width:72px;height:72px}
+.prm{position:absolute;top:-6px;right:-6px;background:var(--red);color:white;border:none;border-radius:50%;width:20px;height:20px;font-size:.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#photo-input{display:none}
+.lbar{display:flex;gap:8px;align-items:center;margin-bottom:14px}
+.lbar input{margin-bottom:0;flex:1}
+.lbtn{background:var(--ice);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:1rem;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.lbtn:hover{background:var(--blue);color:white;border-color:var(--blue)}
+.ai-box{background:linear-gradient(135deg,#f0f7ff,#e8f0fe);border:1.5px solid #bfdbfe;border-radius:12px;padding:16px;margin-bottom:14px}
+.ai-title{font-size:.78rem;font-weight:700;color:var(--blue);margin-bottom:8px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.4px}
+.ai-content{font-size:.85rem;color:var(--text);line-height:1.6}
+.ai-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ai-tag{background:var(--blue);color:white;border-radius:20px;padding:3px 12px;font-size:.72rem;font-weight:600}
+.ai-tag.w{background:var(--yellow)}.ai-tag.ok{background:var(--green)}
+.prow{display:flex;gap:8px;margin-bottom:14px}
+.pbtn{flex:1;padding:8px;border-radius:8px;border:1.5px solid var(--border);font-size:.75rem;font-weight:600;cursor:pointer;text-align:center;background:white;transition:all .2s}
+.pbtn.low.on{background:#dcfce7;border-color:var(--green);color:var(--green)}
+.pbtn.med.on{background:#fef9c3;border-color:var(--yellow);color:var(--yellow)}
+.pbtn.high.on{background:#fee2e2;border-color:var(--red);color:var(--red)}
+.sbtn{width:100%;background:linear-gradient(135deg,var(--blue) 0%,var(--navy) 100%);color:white;border:none;border-radius:var(--radius);padding:16px;font-size:.95rem;font-weight:700;font-family:'Sora',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(26,79,160,.25)}
+.sbtn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,79,160,.35)}
+.sbtn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.tsearch{display:flex;gap:8px;margin-bottom:16px}
+.tsearch input{flex:1;margin-bottom:0}
+.tsearch button{background:var(--blue);color:white;border:none;border-radius:10px;padding:11px 16px;font-weight:600;font-size:.85rem;cursor:pointer;font-family:'Inter',sans-serif}
+.scard{border-radius:var(--radius);border:1.5px solid var(--border);padding:18px;margin-bottom:12px;background:white}
+.shdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.sid{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:1px}
+.sbadge{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px}
+.sbadge.received{background:#dbeafe;color:#1d4ed8}.sbadge.review{background:#fef9c3;color:#92400e}
+.sbadge.resolved{background:#dcfce7;color:#166534}.sbadge.rejected{background:#fee2e2;color:#991b1b}
+.stitle{font-weight:600;font-size:.88rem;color:var(--text);margin-bottom:4px}
+.smeta{font-size:.75rem;color:var(--muted)}
+.tl{margin-top:14px;padding-left:4px}
+.tli{display:flex;gap:12px;margin-bottom:12px;position:relative}
+.tldot{width:10px;height:10px;border-radius:50%;background:var(--light);flex-shrink:0;margin-top:4px;position:relative;z-index:1}
+.tldot.done{background:var(--green)}.tldot.cur{background:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.25)}
+.tlline{position:absolute;left:4px;top:14px;width:2px;height:calc(100% + 2px);background:var(--border)}
+.tlt{font-size:.8rem}.tll{font-weight:600;color:var(--text)}.tld{color:var(--muted);font-size:.72rem}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-i{font-size:2.5rem;margin-bottom:12px}
+.empty-t{font-size:.85rem;line-height:1.6}
+.scs{display:none;text-align:center;padding:40px 20px}
+.sci{font-size:3rem;margin-bottom:16px;animation:pop .4s ease}
+@keyframes pop{0%{transform:scale(.5);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.sct{font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:8px}
+.scs-sub{font-size:.85rem;color:var(--sub);line-height:1.6;margin-bottom:20px}
+.refno{background:var(--ice);border:1.5px solid var(--border);border-radius:10px;padding:14px 20px;display:inline-block;font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:700;color:var(--blue);letter-spacing:2px;margin-bottom:20px}
+.newbtn{background:var(--ice);color:var(--blue);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 24px;font-size:.88rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+.cc{font-size:.72rem;color:var(--muted);text-align:right;margin-top:-10px;margin-bottom:14px}
+.inote{font-size:.75rem;color:var(--sub);background:var(--acc2);border-radius:8px;padding:10px 12px;margin-bottom:14px;line-height:1.5;border-left:3px solid var(--light)}
+@media(max-width:600px){.steps::before{left:23px}.sn{width:46px;height:46px;font-size:.95rem;border-radius:12px}.trust-inner{gap:16px}.hero-ctas{flex-direction:column;align-items:center}.btn-w,.btn-o{width:260px;justify-content:center}}
+</style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+#map-preview{height:180px;border-radius:10px;border:1.5px solid var(--border);margin-bottom:14px;display:none;overflow:hidden}
+.loc-wrap{position:relative}
+.loc-dropdown{position:absolute;top:100%;left:0;right:0;background:white;border:1.5px solid var(--border);border-radius:10px;box-shadow:0 4px 16px rgba(15,41,82,.12);z-index:500;max-height:200px;overflow-y:auto;display:none}
+.loc-item{padding:10px 14px;font-size:.82rem;color:var(--text);cursor:pointer;border-bottom:1px solid var(--acc2);line-height:1.4}
+.loc-item:last-child{border-bottom:none}
+.loc-item:hover{background:var(--ice);color:var(--blue)}
+.loc-item strong{display:block;font-weight:600;font-size:.83rem}
+.loc-item span{color:var(--muted);font-size:.75rem}
+.map-confirm{background:var(--ice);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:.78rem;color:var(--sub);margin-bottom:14px;display:none;line-height:1.5}
+.map-confirm strong{color:var(--navy);display:block;margin-bottom:4px}
+.map-btns{display:flex;gap:8px;margin-top:8px}
+.map-btn-ok{background:var(--blue);color:white;border:none;border-radius:8px;padding:7px 16px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
+.map-btn-no{background:white;color:var(--sub);border:1.5px solid var(--border);border-radius:8px;padding:7px 16px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <header class="topbar">
   <div class="topbar-inner">
-    <a href="#" class="logo">
-      <div class="logo-mark">📣</div>
-      VoiceIt
-    </a>
-    <div class="lang-row">
-      <button class="lang-pill on" onclick="setLang('en',this)">EN</button>
-      <button class="lang-pill" onclick="setLang('tr',this)">TR</button>
-      <button class="lang-pill" onclick="setLang('fr',this)">FR</button>
+    <button class="logo" onclick="goHome()"><div class="logo-mark">⚖️</div>ComplaintCA</button>
+    <div class="topbar-right">
+      <button class="back-btn" id="back-btn" onclick="goHome()">← Home</button>
+      <div style="display:flex;gap:4px">
+        <button class="lp on" onclick="V.lang('en',this)">EN</button>
+        <button class="lp" onclick="V.lang('tr',this)">TR</button>
+        <button class="lp" onclick="V.lang('fr',this)">FR</button>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- HERO -->
+<!-- LANDING -->
+<div id="pg-land">
 <section class="hero">
   <div class="hero-orb"></div>
-
-  <div class="hero-eyebrow">
-    <span class="eyebrow-dot"></span>
-    <span data-i="eyebrow">Canada's Official Complaint Platform</span>
+  <div class="hero-eyebrow">🇨🇦 <span class="edot"></span><span id="l-eyebrow"></span></div>
+  <h1 class="hero-title" id="l-hero-title"></h1>
+  <p class="hero-sub" id="l-hero-sub"></p>
+  <div class="hero-ctas">
+    <button class="btn-w" onclick="goApp('new')"><span>📝</span><span id="l-cta1"></span></button>
+    <button class="btn-o" onclick="goApp('track')"><span>🔍</span><span id="l-cta2"></span></button>
   </div>
-
-  <h1 class="hero-title" data-i="hero_title">
-    Your complaint.<br><em>Heard. Tracked. Resolved.</em>
-  </h1>
-
-  <p class="hero-sub" data-i="hero_sub">
-    Submit complaints to municipalities, businesses, or landlords across Canada — in English, French, or Turkish. AI-powered, fully documented.
-  </p>
-
-  <div class="hero-cta-group">
-    <a href="complaint-app.html" class="btn-primary">
-      <span>📝</span> <span data-i="cta_primary">File a Complaint</span>
-    </a>
-    <a href="complaint-app.html#track" class="btn-secondary">
-      <span>🔍</span> <span data-i="cta_secondary">Track My Complaint</span>
-    </a>
-  </div>
-
-  <div class="scroll-cue">
-    <div class="scroll-arrow"></div>
-    <span data-i="scroll_cue">How it works</span>
-  </div>
+  <div class="scroll-cue"><div class="sa"></div><span id="l-scroll"></span></div>
 </section>
-
-<!-- TRUST BAR -->
 <div class="trust-bar">
   <div class="trust-inner">
-    <div class="trust-item"><span class="trust-icon">🔒</span><span data-i="trust_1">Anonymous option available</span></div>
-    <div class="trust-item"><span class="trust-icon">🤖</span><span data-i="trust_2">AI-assisted routing</span></div>
-    <div class="trust-item"><span class="trust-icon">🌐</span><span data-i="trust_3">3 languages supported</span></div>
-    <div class="trust-item"><span class="trust-icon">📋</span><span data-i="trust_4">Real-time status tracking</span></div>
+    <div class="trust-item"><span>🇨🇦</span><span>Canada</span></div><div class="trust-item"><span>🔒</span><span id="l-t1"></span></div>
+    <div class="trust-item"><span>🤖</span><span id="l-t2"></span></div>
+    <div class="trust-item"><span>🌐</span><span id="l-t3"></span></div>
+    <div class="trust-item"><span>📋</span><span id="l-t4"></span></div>
   </div>
 </div>
-
-<!-- HOW IT WORKS -->
-<div class="section">
-  <div class="section-eyebrow" data-i="sec_eyebrow">Process</div>
-  <h2 class="section-title" data-i="sec_title">Four steps. That's all it takes.</h2>
-  <p class="section-sub" data-i="sec_sub">From the moment you submit, every step is documented and trackable. No phone calls. No waiting rooms.</p>
-
+<div class="ls">
+  <div class="s-eye" id="l-eye"></div>
+  <h2 class="s-title" id="l-stitle"></h2>
+  <p class="s-sub" id="l-ssub"></p>
   <div class="steps">
-
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-label" data-i="step1_label">Step one</div>
-        <div class="step-title" data-i="step1_title">Describe the issue</div>
-        <div class="step-desc" data-i="step1_desc">Write what happened, when, and who is responsible. Add photos or videos as evidence. Choose the target: municipality, business, or landlord.</div>
-        <span class="step-chip" data-i="step1_chip">📸 Photo &amp; video support</span>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-label" data-i="step2_label">Step two</div>
-        <div class="step-title" data-i="step2_title">AI strengthens your case</div>
-        <div class="step-desc" data-i="step2_desc">Our AI reviews your complaint, improves the language for clarity and impact, and identifies the right authority in Canada to send it to.</div>
-        <span class="step-chip" data-i="step2_chip">🤖 Powered by Claude AI</span>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <div class="step-label" data-i="step3_label">Step three</div>
-        <div class="step-title" data-i="step3_title">Submit &amp; receive your reference</div>
-        <div class="step-desc" data-i="step3_desc">With one tap, your complaint is logged and assigned a unique reference number. You can submit anonymously or with your contact details for follow-up.</div>
-        <span class="step-chip" data-i="step3_chip">🔐 Anonymous option</span>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body">
-        <div class="step-label" data-i="step4_label">Step four</div>
-        <div class="step-title" data-i="step4_title">Track your complaint live</div>
-        <div class="step-desc" data-i="step4_desc">Enter your reference number at any time to see exactly where things stand — Received, Under Review, or Resolved — with a full timeline.</div>
-        <span class="step-chip" data-i="step4_chip">📊 Live status updates</span>
-      </div>
-    </div>
-
+    <div class="step"><div class="sn">1</div><div class="sb"><div class="sl" id="l-s1l"></div><div class="st" id="l-s1t"></div><div class="sd-t" id="l-s1d"></div><span class="sc">📸 Photo &amp; video</span></div></div>
+    <div class="step"><div class="sn">2</div><div class="sb"><div class="sl" id="l-s2l"></div><div class="st" id="l-s2t"></div><div class="sd-t" id="l-s2d"></div><span class="sc">🤖 Claude AI</span></div></div>
+    <div class="step"><div class="sn">3</div><div class="sb"><div class="sl" id="l-s3l"></div><div class="st" id="l-s3t"></div><div class="sd-t" id="l-s3d"></div><span class="sc">🔐 Anonymous</span></div></div>
+    <div class="step"><div class="sn">4</div><div class="sb"><div class="sl" id="l-s4l"></div><div class="st" id="l-s4t"></div><div class="sd-t" id="l-s4d"></div><span class="sc">📊 Live updates</span></div></div>
   </div>
 </div>
-
-<div class="divider"></div>
-
-<!-- BOTTOM CTA -->
-<section class="bottom-cta">
-  <h2 class="bottom-cta-title" data-i="bcta_title">Ready to be heard?</h2>
-  <p class="bottom-cta-sub" data-i="bcta_sub">It takes less than 3 minutes. Your complaint, properly documented.</p>
-  <a href="complaint-app.html" class="btn-primary">
-    <span>📝</span> <span data-i="bcta_btn">Start a Complaint</span>
-  </a>
+<div class="ldiv"></div>
+<section class="bcta">
+  <h2 class="bcta-t" id="l-bct"></h2>
+  <p class="bcta-s" id="l-bcs"></p>
+  <button class="btn-w" onclick="goApp('new')"><span>📝</span><span id="l-bcb"></span></button>
 </section>
+<footer><div class="fi"><div class="flogo">⚖️ ComplaintCA 🇨🇦</div><div class="fnote" id="l-fn"></div></div></footer>
+</div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">VoiceIt</div>
-    <div class="footer-note" data-i="footer_note">© 2024 VoiceIt · Canada · EN / TR / FR</div>
+<!-- APP -->
+<div id="pg-app">
+<div class="nav-tabs">
+  <div class="nav-inner">
+    <div class="nav-tab active" id="tab-new" onclick="showTab('new')"></div>
+    <div class="nav-tab" id="tab-track" onclick="showTab('track')"></div>
   </div>
-</footer>
+</div>
+<div class="amain">
+  <div id="view-new">
+    <div id="form-sec">
+      <div class="card">
+        <div class="ct"><div class="ci">👤</div><span id="a-who"></span></div>
+        <div class="trow">
+          <div><div class="tlbl" id="a-anon-l"></div><div class="tsub" id="a-anon-s"></div></div>
+          <div class="tog" id="anon-tog" onclick="toggleAnon()"></div>
+        </div>
+        <div id="id-fields" style="margin-top:14px">
+          <label id="a-lname"></label><input type="text" id="inp-name" placeholder="...">
+          <label id="a-lemail"></label><input type="email" id="inp-email" placeholder="you@email.com">
+          <label id="a-lphone"></label><input type="tel" id="inp-phone" placeholder="+1 (416) 000-0000">
+        </div>
+      </div>
+      <div class="card">
+        <div class="ct"><div class="ci">🏛️</div><span id="a-target"></span></div>
+        <div class="sgrid" id="tgt-grid">
+          <div class="sopt" data-val="municipal" onclick="selTarget(this)"><span>🏙️</span><span id="a-tmun"></span></div>
+          <div class="sopt" data-val="business" onclick="selTarget(this)"><span>🏢</span><span id="a-tbiz"></span></div>
+          <div class="sopt" data-val="landlord" onclick="selTarget(this)"><span>🏠</span><span id="a-tland"></span></div>
+          <div class="sopt" data-val="other" onclick="selTarget(this)"><span>📋</span><span id="a-tother"></span></div>
+        </div>
+        <label id="a-tname-l"></label><input type="text" id="inp-tname" placeholder="e.g. City of Toronto...">
+      </div>
+      <div class="card">
+        <div class="ct"><div class="ci">📂</div><span id="a-cat"></span></div>
+        <select id="inp-cat">
+          <option value="" id="a-csel"></option>
+          <option value="noise" id="a-cnoise"></option>
+          <option value="safety" id="a-csafe"></option>
+          <option value="garbage" id="a-cgarb"></option>
+          <option value="disc" id="a-cdisc"></option>
+          <option value="service" id="a-cserv"></option>
+          <option value="billing" id="a-cbill"></option>
+          <option value="property" id="a-cprop"></option>
+          <option value="other" id="a-coth"></option>
+        </select>
+        <label id="a-lpri"></label>
+        <div class="prow">
+          <div class="pbtn low" id="a-plow" onclick="selPri('low',this)"></div>
+          <div class="pbtn med on" id="a-pmed" onclick="selPri('medium',this)"></div>
+          <div class="pbtn high" id="a-phigh" onclick="selPri('high',this)"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ct"><div class="ci">📝</div><span id="a-comp"></span></div>
+        <label id="a-ltitle"></label><input type="text" id="inp-title" placeholder="...">
+        <label id="a-ldesc"></label>
+        <textarea id="inp-desc" oninput="updateCC()"></textarea>
+        <div class="cc" id="char-cnt">0 / 1000</div>
+        <div id="ai-sec" style="display:none">
+          <div class="ai-box">
+            <div class="ai-title">🤖 <span id="a-ail"></span></div>
+            <div class="ai-content" id="ai-cont"></div>
+            <div class="ai-tags" id="ai-tags"></div>
+          </div>
+        </div>
+        <button class="sbtn" style="background:var(--ice);color:var(--blue);box-shadow:none;margin-bottom:14px;font-size:.82rem;padding:11px" onclick="runAI()" id="ai-btn"></button>
+      </div>
+      <div class="card">
+        <div class="ct"><div class="ci">📍</div><span id="a-loc"></span></div>
+        <div class="lbar">
+          <div class="loc-wrap" style="flex:1;position:relative">
+            <input type="text" id="inp-loc" placeholder="..." oninput="_locDebounce()" autocomplete="off" style="width:100%;margin-bottom:0">
+            <div class="loc-dropdown" id="loc-dropdown"></div>
+          </div>
+          <button class="lbtn" onclick="getLoc()" id="loc-btn">📡</button>
+        </div>
+        <div id="loc-st" style="font-size:.75rem;color:var(--muted);margin-top:-10px;margin-bottom:10px;display:none"></div>
+        <div id="map-preview"></div>
+        <div class="map-confirm" id="map-confirm">
+          <strong id="map-addr-txt"></strong>
+          <span id="map-confirm-q">Is this the correct location?</span>
+          <div class="map-btns">
+            <button class="map-btn-ok" onclick="_mapConfirm()">✓ Yes</button>
+            <button class="map-btn-no" onclick="_mapClear()">✗ No, clear</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ct"><div class="ci">📸</div><span id="a-media"></span></div>
+        <div id="pgrid" class="pgrid"></div>
+        <div class="pup" onclick="document.getElementById('photo-input').click()">
+          <div class="ui">📎</div>
+          <div id="a-mlab"></div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:4px" id="a-msub"></div>
+        </div>
+        <input type="file" id="photo-input" accept="image/*,video/*" multiple onchange="addPhotos(this)">
+      </div>
+      <div class="inote" id="a-note"></div>
+      <button class="sbtn" id="sub-btn" onclick="doSubmit()"></button>
+    </div>
+    <div class="scs" id="scs-screen">
+      <div class="sci">✅</div>
+      <div class="sct" id="a-suct"></div>
+      <div class="scs-sub" id="a-sucs"></div>
+      <div class="refno" id="ref-disp"></div><br>
+      <button class="newbtn" onclick="resetForm()" id="a-sucn"></button>
+    </div>
+  </div>
+  <div id="view-track" style="display:none">
+    <div class="card">
+      <div class="ct"><div class="ci">🔍</div><span id="a-trkt"></span></div>
+      <div class="tsearch">
+        <input type="text" id="trk-inp" placeholder="VC-2025-XXXXX">
+        <button onclick="doTrack()" id="a-trkb"></button>
+      </div>
+    </div>
+    <div id="trk-result"></div>
+    <div id="trk-recent"></div>
+  </div>
+</div>
+</div>
 
 <script>
-const T = {
-  en: {
-    eyebrow: "Canada's Official Complaint Platform",
-    hero_title: "Your complaint.<br><em>Heard. Tracked. Resolved.</em>",
-    hero_sub: "Submit complaints to municipalities, businesses, or landlords across Canada — in English, French, or Turkish. AI-powered, fully documented.",
-    cta_primary: "File a Complaint", cta_secondary: "Track My Complaint",
-    scroll_cue: "How it works",
-    trust_1: "Anonymous option available", trust_2: "AI-assisted routing",
-    trust_3: "3 languages supported", trust_4: "Real-time status tracking",
-    sec_eyebrow: "Process", sec_title: "Four steps. That's all it takes.",
-    sec_sub: "From the moment you submit, every step is documented and trackable. No phone calls. No waiting rooms.",
-    step1_label: "Step one", step1_title: "Describe the issue",
-    step1_desc: "Write what happened, when, and who is responsible. Add photos or videos as evidence. Choose the target: municipality, business, or landlord.",
-    step1_chip: "📸 Photo & video support",
-    step2_label: "Step two", step2_title: "AI strengthens your case",
-    step2_desc: "Our AI reviews your complaint, improves the language for clarity and impact, and identifies the right authority in Canada to send it to.",
-    step2_chip: "🤖 Powered by Claude AI",
-    step3_label: "Step three", step3_title: "Submit & receive your reference",
-    step3_desc: "With one tap, your complaint is logged and assigned a unique reference number. You can submit anonymously or with your contact details for follow-up.",
-    step3_chip: "🔐 Anonymous option",
-    step4_label: "Step four", step4_title: "Track your complaint live",
-    step4_desc: "Enter your reference number at any time to see exactly where things stand — Received, Under Review, or Resolved — with a full timeline.",
-    step4_chip: "📊 Live status updates",
-    bcta_title: "Ready to be heard?", bcta_sub: "It takes less than 3 minutes. Your complaint, properly documented.",
-    bcta_btn: "Start a Complaint", footer_note: "© 2024 VoiceIt · Canada · EN / TR / FR"
-  },
-  tr: {
-    eyebrow: "Kanada Resmi Şikayet Platformu",
-    hero_title: "Şikayetiniz.<br><em>Duyuldu. Takip edildi. Çözüldü.</em>",
-    hero_sub: "Kanada genelinde belediyelere, işletmelere veya ev sahiplerine Türkçe, İngilizce veya Fransızca şikayet iletin. Yapay zeka destekli, tam belgelenmiş.",
-    cta_primary: "Şikayet Gönder", cta_secondary: "Şikayetimi Takip Et",
-    scroll_cue: "Nasıl çalışır",
-    trust_1: "Anonim seçenek mevcut", trust_2: "Yapay zeka destekli yönlendirme",
-    trust_3: "3 dil desteği", trust_4: "Anlık durum takibi",
-    sec_eyebrow: "Süreç", sec_title: "Dört adım. Hepsi bu kadar.",
-    sec_sub: "Gönderdiğiniz andan itibaren her adım belgelenir ve takip edilebilir. Telefon yok. Bekleme odası yok.",
-    step1_label: "Birinci adım", step1_title: "Sorunu açıklayın",
-    step1_desc: "Ne olduğunu, ne zaman olduğunu ve kimin sorumlu olduğunu yazın. Kanıt olarak fotoğraf veya video ekleyin. Hedefi seçin: belediye, işletme veya ev sahibi.",
-    step1_chip: "📸 Fotoğraf & video desteği",
-    step2_label: "İkinci adım", step2_title: "Yapay zeka davanızı güçlendirir",
-    step2_desc: "Yapay zekamız şikayetinizi inceler, netlik ve etki için dili iyileştirir ve Kanada'da göndereceği doğru kurumu belirler.",
-    step2_chip: "🤖 Claude AI destekli",
-    step3_label: "Üçüncü adım", step3_title: "Gönderin & referans alın",
-    step3_desc: "Tek dokunuşla şikayetiniz kaydedilir ve benzersiz bir referans numarası atanır. Anonim veya iletişim bilgilerinizle gönderebilirsiniz.",
-    step3_chip: "🔐 Anonim seçenek",
-    step4_label: "Dördüncü adım", step4_title: "Şikayetinizi canlı takip edin",
-    step4_desc: "Referans numaranızı girerek tam zaman çizelgesiyle — Alındı, İncelemede veya Çözüldü — her an durumu görün.",
-    step4_chip: "📊 Canlı durum güncellemeleri",
-    bcta_title: "Duyulmaya hazır mısınız?", bcta_sub: "3 dakikadan az sürer. Şikayetiniz, usulünce belgelenmiş.",
-    bcta_btn: "Şikayet Başlat", footer_note: "© 2024 VoiceIt · Kanada · TR / EN / FR"
-  },
-  fr: {
-    eyebrow: "Plateforme officielle de plaintes au Canada",
-    hero_title: "Votre plainte.<br><em>Entendue. Suivie. Résolue.</em>",
-    hero_sub: "Soumettez des plaintes aux municipalités, entreprises ou propriétaires partout au Canada — en anglais, français ou turc. Assisté par IA, entièrement documenté.",
-    cta_primary: "Déposer une plainte", cta_secondary: "Suivre ma plainte",
-    scroll_cue: "Comment ça marche",
-    trust_1: "Option anonyme disponible", trust_2: "Acheminement assisté par IA",
-    trust_3: "3 langues supportées", trust_4: "Suivi en temps réel",
-    sec_eyebrow: "Processus", sec_title: "Quatre étapes. C'est tout.",
-    sec_sub: "Dès la soumission, chaque étape est documentée et traçable. Pas d'appels. Pas de salle d'attente.",
-    step1_label: "Première étape", step1_title: "Décrivez le problème",
-    step1_desc: "Écrivez ce qui s'est passé, quand et qui est responsable. Ajoutez des photos ou vidéos comme preuves. Choisissez la cible : municipalité, entreprise ou propriétaire.",
-    step1_chip: "📸 Support photo & vidéo",
-    step2_label: "Deuxième étape", step2_title: "L'IA renforce votre dossier",
-    step2_desc: "Notre IA examine votre plainte, améliore le langage pour plus de clarté et d'impact, et identifie la bonne autorité canadienne à qui l'envoyer.",
-    step2_chip: "🤖 Propulsé par Claude AI",
-    step3_label: "Troisième étape", step3_title: "Soumettez & recevez votre référence",
-    step3_desc: "D'un seul geste, votre plainte est enregistrée et un numéro de référence unique lui est attribué. Vous pouvez soumettre anonymement ou avec vos coordonnées.",
-    step3_chip: "🔐 Option anonyme",
-    step4_label: "Quatrième étape", step4_title: "Suivez votre plainte en direct",
-    step4_desc: "Entrez votre numéro de référence à tout moment pour voir où en sont les choses — Reçue, En cours d'examen ou Résolue — avec un historique complet.",
-    step4_chip: "📊 Mises à jour en direct",
-    bcta_title: "Prêt à être entendu ?", bcta_sub: "Moins de 3 minutes. Votre plainte, correctement documentée.",
-    bcta_btn: "Commencer une plainte", footer_note: "© 2024 VoiceIt · Canada · FR / EN / TR"
+const V = (function(){
+  // ── TRANSLATIONS ──
+  const T = {
+    en:{
+      ey:"Canada's Official Complaint Platform",
+      ht:"Your complaint.\u003cbr\u003e\u003cem\u003eHeard. Tracked. Resolved.\u003c/em\u003e",
+      hs:"Submit complaints to municipalities, businesses, or landlords across Canada — in English, French, or Turkish. AI-powered, fully documented.",
+      c1:"File a Complaint",c2:"Track My Complaint",sc:"How it works",
+      t1:"Anonymous option",t2:"AI routing",t3:"3 languages",t4:"Live tracking",
+      se:"Process",st:"Four steps. That's all it takes.",ss:"From the moment you submit, every step is documented and trackable.",
+      s1l:"Step one",s1t:"Describe the issue",s1d:"Write what happened, add photos, choose the target.",
+      s2l:"Step two",s2t:"AI strengthens your case",s2d:"AI improves your text and finds the right Canadian authority.",
+      s3l:"Step three",s3t:"Submit & get reference",s3d:"One tap — logged and assigned a unique reference number.",
+      s4l:"Step four",s4t:"Track live",s4d:"Check status anytime — Received, Under Review, or Resolved.",
+      bt:"Ready to be heard?",bs:"Less than 3 minutes. Fully documented.",bb:"Start a Complaint",fn:"© 2025 ComplaintCA · Canada",
+      nw:"New Complaint",tr:"Track Status",
+      who:"About You",anl:"Submit anonymously",ans:"Your identity will not be shared",
+      lnm:"Full Name",lem:"Email",lph:"Phone (optional)",
+      tgt:"Who is this about?",tmn:"Municipality",tbz:"Business",tld:"Landlord",tot:"Other",tnl:"Organization / person name",
+      cat:"Category",csl:"Select a category...",cno:"Noise / Disturbance",csa:"Safety Hazard",cga:"Garbage / Cleanliness",cdi:"Discrimination / Rights",cse:"Poor Service",cbi:"Billing / Overcharge",cpr:"Property Damage",cot:"Other",
+      pri:"Priority",plo:"🟢 Low",pme:"🟡 Medium",phi:"🔴 High",
+      cmp:"Complaint",ltl:"Title",ldc:"Description",
+      ail:"AI Analysis",aiw:"Analyzing...",aib:"✨ Improve with AI",
+      loc:"Location",med:"Evidence",mla:"Tap to add photos or videos",msu:"JPG, PNG, MP4 — up to 10 files",
+      not:"By submitting, you confirm the information is accurate. False complaints may have legal consequences.",
+      sub:"Submit Complaint",
+      sut:"Complaint Submitted",sus:"Your complaint has been received. Use your reference number to track its status.",sun:"Submit Another",
+      tkt:"Track Your Complaint",tkb:"Track",tkr:"Your Recent Complaints",tke:"No complaints found for this reference number.",
+      sr:"Received",sv:"Under Review",so:"Resolved",sj:"Rejected",
+      tr_r:"Complaint received",tr_v:"Under review",tr_o:"Resolved",tr_j:"Rejected",
+      ld:"Detecting location...",ld2:"Location detected"
+    },
+    tr:{
+      ey:"Kanada Resmi Şikayet Platformu",
+      ht:"Şikayetiniz.\u003cbr\u003e\u003cem\u003eDuyuldu. Takip edildi. Çözüldü.\u003c/em\u003e",
+      hs:"Kanada genelinde belediyelere, işletmelere veya ev sahiplerine Türkçe, İngilizce veya Fransızca şikayet iletin.",
+      c1:"Şikayet Gönder",c2:"Şikayetimi Takip Et",sc:"Nasıl çalışır",
+      t1:"Anonim seçenek",t2:"Yapay zeka yönlendirme",t3:"3 dil desteği",t4:"Canlı takip",
+      se:"Süreç",st:"Dört adım. Hepsi bu kadar.",ss:"Gönderdiğiniz andan itibaren her adım belgelenir.",
+      s1l:"Birinci adım",s1t:"Sorunu açıklayın",s1d:"Ne olduğunu yazın, fotoğraf ekleyin, hedefi seçin.",
+      s2l:"İkinci adım",s2t:"Yapay zeka davanızı güçlendirir",s2d:"AI şikayetinizi iyileştirir ve doğru Kanada kurumunu belirler.",
+      s3l:"Üçüncü adım",s3t:"Gönderin ve referans alın",s3d:"Tek dokunuşla şikayetiniz kaydedilir ve referans numarası atanır.",
+      s4l:"Dördüncü adım",s4t:"Canlı takip edin",s4d:"Referans numaranızı girerek her an durumu görün.",
+      bt:"Duyulmaya hazır mısınız?",bs:"3 dakikadan az sürer. Tam belgelenmiş.",bb:"Şikayet Başlat",fn:"© 2025 ComplaintCA · Kanada",
+      nw:"Yeni Şikayet",tr:"Durum Takibi",
+      who:"Hakkınızda",anl:"Anonim gönder",ans:"Kimliğiniz paylaşılmayacak",
+      lnm:"Ad Soyad",lem:"E-posta",lph:"Telefon (isteğe bağlı)",
+      tgt:"Bu şikayet kime yönelik?",tmn:"Belediye",tbz:"İşletme",tld:"Ev Sahibi",tot:"Diğer",tnl:"Kurum / kişi adı",
+      cat:"Kategori",csl:"Kategori seçin...",cno:"Gürültü / Rahatsızlık",csa:"Güvenlik Tehlikesi",cga:"Çöp / Temizlik",cdi:"Ayrımcılık / Haklar",cse:"Kötü Hizmet",cbi:"Fatura / Fazla Ücret",cpr:"Mülk Hasarı",cot:"Diğer",
+      pri:"Öncelik",plo:"🟢 Düşük",pme:"🟡 Orta",phi:"🔴 Yüksek",
+      cmp:"Şikayet",ltl:"Başlık",ldc:"Açıklama",
+      ail:"Yapay Zeka Analizi",aiw:"Analiz ediliyor...",aib:"✨ Yapay Zeka ile İyileştir",
+      loc:"Konum",med:"Kanıt",mla:"Fotoğraf veya video ekleyin",msu:"JPG, PNG, MP4 — en fazla 10 dosya",
+      not:"Gönderilerek, bilgilerin doğru olduğunu onaylıyorsunuz.",
+      sub:"Şikayeti Gönder",
+      sut:"Şikayet Gönderildi",sus:"Şikayetiniz alındı. Durumunu takip etmek için referans numaranızı kullanın.",sun:"Yeni Şikayet",
+      tkt:"Şikayetinizi Takip Edin",tkb:"Sorgula",tkr:"Son Şikayetleriniz",tke:"Bu referans numarası için şikayet bulunamadı.",
+      sr:"Alındı",sv:"İncelemede",so:"Çözüldü",sj:"Reddedildi",
+      tr_r:"Şikayet alındı",tr_v:"İncelemeye alındı",tr_o:"Çözüldü",tr_j:"Reddedildi",
+      ld:"Konum tespit ediliyor...",ld2:"Konum tespit edildi"
+    },
+    fr:{
+      ey:"Plateforme officielle de plaintes au Canada",
+      ht:"Votre plainte.\u003cbr\u003e\u003cem\u003eEntendue. Suivie. Résolue.\u003c/em\u003e",
+      hs:"Soumettez des plaintes aux municipalités, entreprises ou propriétaires partout au Canada.",
+      c1:"Déposer une plainte",c2:"Suivre ma plainte",sc:"Comment ça marche",
+      t1:"Option anonyme",t2:"IA de routage",t3:"3 langues",t4:"Suivi en direct",
+      se:"Processus",st:"Quatre étapes. C'est tout.",ss:"Dès la soumission, chaque étape est documentée et traçable.",
+      s1l:"Première étape",s1t:"Décrivez le problème",s1d:"Écrivez ce qui s'est passé, ajoutez des preuves.",
+      s2l:"Deuxième étape",s2t:"L'IA renforce votre dossier",s2d:"L'IA améliore votre texte et identifie la bonne autorité canadienne.",
+      s3l:"Troisième étape",s3t:"Soumettez et recevez votre référence",s3d:"En un geste, votre plainte est enregistrée avec un numéro unique.",
+      s4l:"Quatrième étape",s4t:"Suivez en direct",s4d:"Consultez le statut à tout moment.",
+      bt:"Prêt à être entendu?",bs:"Moins de 3 minutes. Entièrement documenté.",bb:"Commencer une plainte",fn:"© 2025 ComplaintCA · Canada",
+      nw:"Nouvelle Plainte",tr:"Suivi",
+      who:"À votre sujet",anl:"Soumettre anonymement",ans:"Votre identité ne sera pas partagée",
+      lnm:"Nom complet",lem:"Courriel",lph:"Téléphone (optionnel)",
+      tgt:"À qui s'adresse cette plainte?",tmn:"Municipalité",tbz:"Entreprise",tld:"Propriétaire",tot:"Autre",tnl:"Nom de l'organisation",
+      cat:"Catégorie",csl:"Sélectionner...",cno:"Bruit / Perturbation",csa:"Danger pour la sécurité",cga:"Déchets / Propreté",cdi:"Discrimination / Droits",cse:"Mauvais service",cbi:"Facturation / Surfacturation",cpr:"Dommages matériels",cot:"Autre",
+      pri:"Priorité",plo:"🟢 Faible",pme:"🟡 Moyenne",phi:"🔴 Élevée",
+      cmp:"Plainte",ltl:"Titre",ldc:"Description",
+      ail:"Analyse IA",aiw:"Analyse en cours...",aib:"✨ Améliorer avec l'IA",
+      loc:"Lieu",med:"Preuves",mla:"Ajouter des photos ou vidéos",msu:"JPG, PNG, MP4 — jusqu'à 10 fichiers",
+      not:"En soumettant, vous confirmez que les informations sont exactes.",
+      sub:"Soumettre la plainte",
+      sut:"Plainte soumise",sus:"Votre plainte a été reçue. Utilisez votre numéro de référence pour suivre son état.",sun:"Nouvelle plainte",
+      tkt:"Suivre votre plainte",tkb:"Rechercher",tkr:"Vos plaintes récentes",tke:"Aucune plainte trouvée pour ce numéro.",
+      sr:"Reçue",sv:"En cours d'examen",so:"Résolue",sj:"Rejetée",
+      tr_r:"Plainte reçue",tr_v:"En cours d'examen",tr_o:"Résolue",tr_j:"Rejetée",
+      ld:"Détection de la position...",ld2:"Position détectée"
+    }
+  };
+
+  let curLang = 'en';
+  let isAnon = false, selTgt = '', selPri = 'medium', photos = [];
+  let complaints = JSON.parse(localStorage.getItem('vc_comp') || '[]');
+
+  function t(k){ return (T[curLang]&&T[curLang][k]) || T.en[k] || k; }
+
+  function applyAll(){
+    // Landing
+    const L = {
+      'l-eyebrow':'ey','l-hero-title':'ht','l-hero-sub':'hs',
+      'l-cta1':'c1','l-cta2':'c2','l-scroll':'sc',
+      'l-t1':'t1','l-t2':'t2','l-t3':'t3','l-t4':'t4',
+      'l-eye':'se','l-stitle':'st','l-ssub':'ss',
+      'l-s1l':'s1l','l-s1t':'s1t','l-s1d':'s1d',
+      'l-s2l':'s2l','l-s2t':'s2t','l-s2d':'s2d',
+      'l-s3l':'s3l','l-s3t':'s3t','l-s3d':'s3d',
+      'l-s4l':'s4l','l-s4t':'s4t','l-s4d':'s4d',
+      'l-bct':'bt','l-bcs':'bs','l-bcb':'bb','l-fn':'fn'
+    };
+    Object.entries(L).forEach(([id,key])=>{
+      const el=document.getElementById(id);
+      if(el) el.innerHTML=t(key);
+    });
+    // App
+    const A = {
+      'tab-new':'nw','tab-track':'tr',
+      'a-who':'who','a-anon-l':'anl','a-anon-s':'ans',
+      'a-lname':'lnm','a-lemail':'lem','a-lphone':'lph',
+      'a-target':'tgt','a-tmun':'tmn','a-tbiz':'tbz','a-tland':'tld','a-tother':'tot','a-tname-l':'tnl',
+      'a-cat':'cat','a-csel':'csl','a-cnoise':'cno','a-csafe':'csa','a-cgarb':'cga','a-cdisc':'cdi','a-cserv':'cse','a-cbill':'cbi','a-cprop':'cpr','a-coth':'cot',
+      'a-lpri':'pri','a-plow':'plo','a-pmed':'pme','a-phigh':'phi',
+      'a-comp':'cmp','a-ltitle':'ltl','a-ldesc':'ldc',
+      'a-ail':'ail','a-loc':'loc','a-media':'med','a-mlab':'mla','a-msub':'msu',
+      'a-note':'not','sub-btn':'sub',
+      'a-suct':'sut','a-sucs':'sus','a-sucn':'sun',
+      'a-trkt':'tkt','a-trkb':'tkb','ai-btn':'aib'
+    };
+    Object.entries(A).forEach(([id,key])=>{
+      const el=document.getElementById(id);
+      if(el) el.textContent=t(key);
+    });
   }
+
+  return {
+    lang(l, btn){
+      curLang = l;
+      document.querySelectorAll('.lp').forEach(b=>b.classList.remove('on'));
+      if(btn) btn.classList.add('on');
+      applyAll();
+    },
+    init(){ applyAll(); },
+    t
+  };
+})();
+
+// ── PAGE NAV ──
+function goHome(){
+  document.getElementById('pg-land').style.display='block';
+  document.getElementById('pg-app').style.display='none';
+  document.getElementById('back-btn').classList.remove('show');
+  window.scrollTo(0,0);
+}
+function goApp(tab){
+  document.getElementById('pg-land').style.display='none';
+  document.getElementById('pg-app').style.display='block';
+  document.getElementById('back-btn').classList.add('show');
+  showTab(tab||'new');
+  window.scrollTo(0,0);
+}
+
+// ── APP STATE ──
+let _isAnon=false, _selTgt='', _selPri='medium', _photos=[], _complaints=JSON.parse(localStorage.getItem('vc_comp')||'[]');
+
+function showTab(tab){
+  document.getElementById('view-new').style.display=tab==='new'?'':'none';
+  document.getElementById('view-track').style.display=tab==='track'?'':'none';
+  document.getElementById('tab-new').classList.toggle('active',tab==='new');
+  document.getElementById('tab-track').classList.toggle('active',tab==='track');
+  if(tab==='track') renderRecent();
+}
+function toggleAnon(){
+  _isAnon=!_isAnon;
+  document.getElementById('anon-tog').classList.toggle('on',_isAnon);
+  document.getElementById('id-fields').style.display=_isAnon?'none':'';
+}
+function selTarget(el){
+  document.querySelectorAll('#tgt-grid .sopt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel'); _selTgt=el.getAttribute('data-val');
+}
+function selPri(p,el){
+  document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on'); _selPri=p;
+}
+function updateCC(){
+  document.getElementById('char-cnt').textContent=document.getElementById('inp-desc').value.length+' / 1000';
+}
+function getLoc(){
+  const s=document.getElementById('loc-st'),btn=document.getElementById('loc-btn');
+  s.style.display='block'; s.textContent=V.t('ld'); btn.textContent='⏳';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const{latitude:lat,longitude:lng}=pos.coords;
+    fetch('https://nominatim.openstreetmap.org/reverse?lat='+lat+'&lon='+lng+'&format=json')
+      .then(r=>r.json()).then(d=>{
+        const addr=d.display_name||lat.toFixed(4)+','+lng.toFixed(4);
+        document.getElementById('inp-loc').value=addr;
+        s.textContent=V.t('ld2')+' ✓'; btn.textContent='✅';
+        _initMap(lat,lng);
+        _showMapConfirm(addr);
+      }).catch(()=>{
+        document.getElementById('inp-loc').value=lat.toFixed(5)+','+lng.toFixed(5);
+        s.textContent=V.t('ld2')+' ✓'; btn.textContent='✅';
+        _initMap(lat,lng);
+      });
+  },()=>{ s.textContent='Location access denied.'; btn.textContent='📡'; });
+}
+function addPhotos(inp){
+  Array.from(inp.files).forEach(f=>{
+    if(_photos.length>=10) return;
+    const r=new FileReader(); r.onload=e=>{_photos.push({name:f.name,data:e.target.result}); renderPhotos();}; r.readAsDataURL(f);
+  }); inp.value='';
+}
+function removePhoto(i){ _photos.splice(i,1); renderPhotos(); }
+function renderPhotos(){
+  document.getElementById('pgrid').innerHTML=_photos.map((p,i)=>`<div class="ptwrap"><img class="pthumb" src="${p.data}"><button class="prm" onclick="removePhoto(${i})">✕</button></div>`).join('');
+}
+async function runAI(){
+  const desc=document.getElementById('inp-desc').value.trim();
+  const title=document.getElementById('inp-title').value.trim();
+  const cat=document.getElementById('inp-cat').value;
+  if(!desc||desc.length<10){alert(_aLang==='tr'?'Lütfen en az 10 karakter yazın.':'Please write at least 10 characters.');return;}
+  // Sync Asya language with current app language
+  var lp=document.querySelector('.lp.on');
+  if(lp) _aLang=lp.textContent.toLowerCase();
+  // Open Asya modal
+  var modal=document.getElementById('a-modal');
+  if(modal && modal.style.display==='none'){ _aToggle(); }
+  else if(modal){ modal.style.display='flex'; }
+  // Build the improvement request
+  var improveMsg = _aLang==='tr'
+    ? 'Şu şikayetimi profesyonel ve güçlü bir dille yeniden yaz, doğru Kanada kurumunu da öner:\n\nBaşlık: '+(title||'(yok)')+'\nKategori: '+(cat||'(yok)')+'\nŞikayet: '+desc
+    : _aLang==='fr'
+    ? 'Réécris ma plainte de manière professionnelle et forte, et suggère la bonne autorité canadienne:\n\nTitre: '+(title||'(aucun)')+'\nCatégorie: '+(cat||'(aucune)')+'\nPlainte: '+desc
+    : 'Please rewrite my complaint in a professional, strong tone and suggest the right Canadian authority:\n\nTitle: '+(title||'(none)')+'\nCategory: '+(cat||'(none)')+'\nComplaint: '+desc;
+  // If first open, wait for greeting then send
+  if(_aHistory.length===0){
+    setTimeout(function(){ _aHandleInput(improveMsg); }, 1200);
+  } else {
+    _aHandleInput(improveMsg);
+  }
+}
+function genRef(){return`VC-${new Date().getFullYear()}-${Math.random().toString(36).toUpperCase().substring(2,7)}`;}
+function doSubmit(){
+  const title=document.getElementById('inp-title').value.trim();
+  const desc=document.getElementById('inp-desc').value.trim();
+  const cat=document.getElementById('inp-cat').value;
+  if(!title||!desc||!cat){alert('Please fill in title, description, and category.');return;}
+  const btn=document.getElementById('sub-btn');
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span>Submitting...';
+  const ref=genRef();
+  const c={ref,title,desc,category:cat,target:_selTgt,targetName:document.getElementById('inp-tname').value.trim(),priority:_selPri,location:document.getElementById('inp-loc').value.trim(),anonymous:_isAnon,name:_isAnon?null:document.getElementById('inp-name').value.trim(),email:_isAnon?null:document.getElementById('inp-email').value.trim(),photoCount:_photos.length,status:'received',date:new Date().toISOString(),timeline:[{status:'received',date:new Date().toISOString()}]};
+  _complaints.unshift(c);
+  localStorage.setItem('vc_comp',JSON.stringify(_complaints));
+  (async()=>{
+    if(window._fbSave){try{await window._fbSave(c);}catch(e){}}
+    document.getElementById('form-sec').style.display='none';
+    document.getElementById('scs-screen').style.display='block';
+    document.getElementById('ref-disp').textContent=ref;
+    btn.disabled=false; btn.textContent=V.t('sub');
+  })();
+}
+function resetForm(){
+  document.getElementById('form-sec').style.display='';
+  document.getElementById('scs-screen').style.display='none';
+  ['inp-title','inp-desc','inp-name','inp-email','inp-phone','inp-tname','inp-loc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('inp-cat').value='';
+  document.getElementById('ai-sec').style.display='none';
+  _photos=[]; renderPhotos(); updateCC();
+  document.querySelectorAll('#tgt-grid .sopt').forEach(o=>o.classList.remove('sel'));
+  document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('on'));
+  document.querySelector('.pbtn.med').classList.add('on');
+  _selTgt=''; _selPri='medium'; _isAnon=false;
+  document.getElementById('anon-tog').classList.remove('on');
+  document.getElementById('id-fields').style.display='';
+}
+async function doTrack(){
+  const ref=document.getElementById('trk-inp').value.trim().toUpperCase();
+  const out=document.getElementById('trk-result');
+  out.innerHTML='<div class="empty"><div class="empty-i">⏳</div><div class="empty-t">Searching...</div></div>';
+  let found=null;
+  if(window._fbTrack){try{found=await window._fbTrack(ref);}catch(e){}}
+  if(!found) found=_complaints.find(c=>c.ref===ref);
+  if(!found){out.innerHTML=`<div class="empty"><div class="empty-i">🔍</div><div class="empty-t">${V.t('tke')}</div></div>`;return;}
+  out.innerHTML=renderCard(found);
+}
+function statusLabel(s){return V.t({received:'sr',review:'sv',resolved:'so',rejected:'sj'}[s]||'sr')}
+function tlLabel(s){return V.t({received:'tr_r',review:'tr_v',resolved:'tr_o',rejected:'tr_j'}[s]||'tr_r')}
+function renderCard(c){
+  const date=new Date(c.date).toLocaleDateString();
+  const tl=(c.timeline||[]).map((item,i,arr)=>`<div class="tli">${i<arr.length-1?'<div class="tlline"></div>':''}<div class="tldot ${i===arr.length-1?'cur':'done'}"></div><div class="tlt"><div class="tll">${tlLabel(item.status)}</div><div class="tld">${new Date(item.date).toLocaleDateString()}</div></div></div>`).join('');
+  return`<div class="scard"><div class="shdr"><div><div class="sid">${c.ref}</div><div class="stitle">${c.title}</div><div class="smeta">${date} · ${c.targetName||c.target||'—'}</div></div><span class="sbadge ${c.status}">${statusLabel(c.status)}</span></div><div class="tl">${tl}</div></div>`;
+}
+function renderRecent(){
+  const el=document.getElementById('trk-recent');
+  if(!_complaints.length){el.innerHTML='';return;}
+  el.innerHTML=`<div class="ct" style="padding:0 4px;margin-bottom:10px"><div class="ci">🗂️</div><span>${V.t('tkr')}</span></div>`+_complaints.slice(0,5).map(c=>renderCard(c)).join('');
+}
+
+// Scroll reveal
+const _obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('vis'),80); _obs.unobserve(e.target); }
+  });
+},{threshold:.15});
+document.querySelectorAll('.step').forEach(s=>_obs.observe(s));
+
+V.init();
+
+// ══════════════════════════════
+// ASYA — AI VOICE ASSISTANT
+// ══════════════════════════════
+const ASYA_T = {
+  en:{greeting:"Hi! I'm Asya. Tell me what happened and I'll help you file a complaint.",tap:"Tap to speak",type_ph:"Or type your message...",thinking:"Thinking...",listening:"Listening...",nomic:"Microphone not supported. Please type below."},
+  tr:{greeting:"Merhaba! Ben Asya. Ne olduğunu anlat, şikayetini birlikte hazırlayalım.",tap:"Konuşmak için dokun",type_ph:"Veya mesajınızı yazın...",thinking:"Düşünüyorum...",listening:"Dinliyorum...",nomic:"Mikrofon desteklenmiyor. Lütfen yazın."},
+  fr:{greeting:"Bonjour! Je suis Asya. Dites-moi ce qui s'est passé et je vous aiderai.",tap:"Appuyez pour parler",type_ph:"Ou tapez votre message...",thinking:"Je réfléchis...",listening:"J'écoute...",nomic:"Microphone non supporté. Veuillez taper."}
 };
 
-let lang = 'en';
+let _aLang='tr', _aHistory=[], _aListening=false, _aSpeaking=false, _aRec=null;
 
-function setLang(l, btn) {
-  lang = l;
-  document.querySelectorAll('.lang-pill').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  applyT();
+function _aT(k){ return (ASYA_T[_aLang]||ASYA_T.en)[k]||k; }
+
+function _aSpeak(text){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  _aSpeaking=true;
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=_aLang==='tr'?'tr-TR':_aLang==='fr'?'fr-FR':'en-US';
+  u.rate=1.0; u.pitch=1.05;
+  const vs=window.speechSynthesis.getVoices();
+  const fv=vs.find(v=>v.lang.startsWith(u.lang.split('-')[0])&&/female|woman|samantha|alice|zira|amelie|karen/i.test(v.name));
+  if(fv) u.voice=fv;
+  u.onend=()=>{_aSpeaking=false;};
+  u.onerror=()=>{_aSpeaking=false;};
+  window.speechSynthesis.speak(u);
 }
 
-function applyT() {
-  document.querySelectorAll('[data-i]').forEach(el => {
-    const key = el.getAttribute('data-i');
-    const val = T[lang][key] || T.en[key];
-    if (val) el.innerHTML = val;
-  });
+function _aAddMsg(role,text){
+  const chat=document.getElementById('a-chat');
+  if(!chat) return;
+  const d=document.createElement('div');
+  d.className='a-msg a-'+role;
+  d.textContent=text;
+  chat.appendChild(d);
+  chat.scrollTop=chat.scrollHeight;
 }
 
-// Scroll-triggered step reveal
-const steps = document.querySelectorAll('.step');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), 80);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
-steps.forEach(s => observer.observe(s));
+function _aSetStatus(s){
+  const st=document.getElementById('a-status');
+  const mb=document.getElementById('a-mic-btn');
+  if(st) st.textContent=s==='listening'?_aT('listening'):s==='thinking'?_aT('thinking'):'Asya';
+  if(mb){
+    mb.style.background=s==='listening'?'linear-gradient(135deg,#16a34a,#166534)':s==='thinking'?'linear-gradient(135deg,#d97706,#92400e)':'linear-gradient(135deg,#1a4fa0,#0f2952)';
+  }
+}
 
-applyT();
+async function _aAskClaude(userMsg){
+  _aHistory.push({role:'user',content:userMsg});
+  _aSetStatus('thinking');
+  const sys='You are Asya, a warm AI complaint assistant for ComplaintCA Canada. Language: '+(_aLang==='tr'?'Turkish':_aLang==='fr'?'French':'English')+'. Always respond in this language. Help users prepare strong complaints. If the user asks you to rewrite/improve/strengthen a complaint, respond with a brief friendly intro (1 sentence), then write the improved formal complaint starting with COMPLAINT: on its own line, and after it suggest the right Canadian authority (e.g. Landlord and Tenant Board for rent issues, CRTC for telecom, FCAC for banks, Peel Public Health for restaurants). For normal conversation, ask one question at a time and keep responses SHORT (2 sentences). When you have enough info, write the complaint starting with COMPLAINT: on its own line.';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:sys,messages:_aHistory})
+    });
+    const d=await res.json();
+    const reply=d.content.map(c=>c.text||'').join('');
+    _aHistory.push({role:'assistant',content:reply});
+    _aSetStatus('idle');
+    return reply;
+  }catch(e){
+    _aSetStatus('idle');
+    return _aLang==='tr'?'Bir hata oluştu, lütfen tekrar deneyin.':'Sorry, an error occurred. Please try again.';
+  }
+}
+
+async function _aHandleInput(text){
+  if(!text.trim()) return;
+  _aAddMsg('user',text);
+  const reply=await _aAskClaude(text);
+  _aAddMsg('asya',reply);
+  _aSpeak(reply);
+  // If reply contains an improved complaint, offer to apply it
+  if(reply.indexOf('COMPLAINT:')>-1){
+    var complaint=reply.split('COMPLAINT:')[1].trim();
+    _aShowApply(complaint);
+  }
+}
+
+function _aShowApply(complaintText){
+  var chat=document.getElementById('a-chat');
+  if(!chat) return;
+  var btn=document.createElement('button');
+  btn.textContent=_aLang==='tr'?'✓ Bu metni forma uygula':_aLang==='fr'?'✓ Appliquer au formulaire':'✓ Apply to form';
+  btn.style.cssText='margin:4px 0 8px;background:#16a34a;color:white;border:none;border-radius:10px;padding:10px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;align-self:flex-start';
+  btn.onclick=function(){
+    var d=document.getElementById('inp-desc');
+    if(d){ d.value=complaintText; updateCC(); }
+    btn.textContent=_aLang==='tr'?'✓ Uygulandı!':'✓ Applied!';
+    btn.style.background='#94a3b8';
+    btn.disabled=true;
+  };
+  chat.appendChild(btn);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+function _aListen(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){alert(_aT('nomic'));return;}
+  if(_aListening){if(_aRec)_aRec.stop();_aListening=false;_aSetStatus('idle');return;}
+  if(_aSpeaking){window.speechSynthesis.cancel();_aSpeaking=false;}
+  _aRec=new SR();
+  _aRec.lang=_aLang==='tr'?'tr-TR':_aLang==='fr'?'fr-FR':'en-US';
+  _aRec.interimResults=false;
+  _aRec.onstart=()=>{_aListening=true;_aSetStatus('listening');};
+  _aRec.onresult=e=>{const t=e.results[0][0].transcript;_aListening=false;_aSetStatus('idle');_aHandleInput(t);};
+  _aRec.onerror=()=>{_aListening=false;_aSetStatus('idle');};
+  _aRec.onend=()=>{if(_aListening){_aListening=false;_aSetStatus('idle');}};
+  _aRec.start();
+}
+
+function _aSendText(){
+  const inp=document.getElementById('a-text');
+  if(!inp||!inp.value.trim()) return;
+  const t=inp.value.trim();
+  inp.value='';
+  _aHandleInput(t);
+}
+
+function _aToggle(){
+  const m=document.getElementById('a-modal');
+  if(!m) return;
+  const open=m.style.display!=='none';
+  m.style.display=open?'none':'flex';
+  if(!open&&_aHistory.length===0){
+    // sync lang with main app
+    const lp=document.querySelector('.lp.on');
+    if(lp) _aLang=lp.textContent.toLowerCase();
+    const g=_aT('greeting');
+    setTimeout(()=>{_aAddMsg('asya',g);_aSpeak(g);},200);
+  }
+}
+
+// Inject HTML + CSS
+(function(){
+  const el=document.createElement('div');
+  el.innerHTML=`
+<button id="a-fab" onclick="_aToggle()" style="position:fixed;bottom:24px;right:20px;z-index:1000;background:linear-gradient(135deg,#1a4fa0,#0f2952);border:none;border-radius:50px;padding:11px 18px 11px 14px;display:flex;align-items:center;gap:9px;cursor:pointer;box-shadow:0 4px 20px rgba(15,41,82,.4);font-family:Inter,sans-serif">
+  <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><rect x="9" y="11" width="3" height="10" rx="1.5" fill="white" opacity="0.8"><animate attributeName="height" values="4;10;4" dur="1.3s" repeatCount="indefinite" begin="0s"/><animate attributeName="y" values="14;11;14" dur="1.3s" repeatCount="indefinite" begin="0s"/></rect><rect x="14" y="9" width="3" height="14" rx="1.5" fill="white"><animate attributeName="height" values="5;14;5" dur="1.3s" repeatCount="indefinite" begin="0.2s"/><animate attributeName="y" values="13.5;9;13.5" dur="1.3s" repeatCount="indefinite" begin="0.2s"/></rect><rect x="19" y="11" width="3" height="10" rx="1.5" fill="white" opacity="0.8"><animate attributeName="height" values="3;10;3" dur="1.3s" repeatCount="indefinite" begin="0.4s"/><animate attributeName="y" values="14.5;11;14.5" dur="1.3s" repeatCount="indefinite" begin="0.4s"/></rect></svg>
+  <span id="a-status" style="font-size:.75rem;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.3px">Asya</span>
+</button>
+<div id="a-modal" style="display:none;position:fixed;bottom:86px;right:16px;z-index:999;flex-direction:column;align-items:flex-end">
+  <div style="background:white;border-radius:20px;box-shadow:0 8px 40px rgba(15,41,82,.25);width:min(340px,calc(100vw - 32px));overflow:hidden;display:flex;flex-direction:column">
+    <div style="background:linear-gradient(135deg,#0f2952,#1a4fa0);padding:14px 16px;display:flex;align-items:center;gap:12px">
+      <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#60a5fa,#1a4fa0);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="22" height="16" viewBox="0 0 32 20" fill="none"><rect x="1" y="6" width="5" height="8" rx="2.5" fill="white" opacity="0.85"><animate attributeName="height" values="3;8;3" dur="1.4s" repeatCount="indefinite"/><animate attributeName="y" values="8.5;6;8.5" dur="1.4s" repeatCount="indefinite"/></rect><rect x="9" y="2" width="5" height="16" rx="2.5" fill="white"><animate attributeName="height" values="6;16;6" dur="1.4s" repeatCount="indefinite" begin="0.2s"/><animate attributeName="y" values="7;2;7" dur="1.4s" repeatCount="indefinite" begin="0.2s"/></rect><rect x="17" y="4" width="5" height="12" rx="2.5" fill="white" opacity="0.85"><animate attributeName="height" values="4;12;4" dur="1.4s" repeatCount="indefinite" begin="0.4s"/><animate attributeName="y" values="8;4;8" dur="1.4s" repeatCount="indefinite" begin="0.4s"/></rect><rect x="25" y="3" width="5" height="14" rx="2.5" fill="white"><animate attributeName="height" values="5;14;5" dur="1.4s" repeatCount="indefinite" begin="0.15s"/><animate attributeName="y" values="7.5;3;7.5" dur="1.4s" repeatCount="indefinite" begin="0.15s"/></rect></svg>
+      </div>
+      <div><div style="font-weight:700;color:white;font-size:.95rem">Asya</div><div style="font-size:.68rem;color:rgba(255,255,255,.55);margin-top:1px">Claude AI · ComplaintCA</div></div>
+      <button onclick="_aToggle()" style="margin-left:auto;background:rgba(255,255,255,.15);border:none;color:white;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:.8rem">✕</button>
+    </div>
+    <div id="a-chat" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;min-height:180px;max-height:260px"></div>
+    <div style="padding:12px 14px 14px;border-top:1px solid #e8f0fe;display:flex;flex-direction:column;gap:8px">
+      <button id="a-mic-btn" onclick="_aListen()" style="width:100%;background:linear-gradient(135deg,#1a4fa0,#0f2952);color:white;border:none;border-radius:11px;padding:12px;font-size:.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:Inter,sans-serif">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0014 0"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+        <span id="a-mic-lbl">Tap to speak</span>
+      </button>
+      <div style="display:flex;gap:7px">
+        <input id="a-text" type="text" placeholder="Or type here..." onkeydown="if(event.key==='Enter')_aSendText()" style="flex:1;border:1.5px solid #dbeafe;border-radius:9px;padding:9px 11px;font-size:.82rem;font-family:Inter,sans-serif;outline:none;background:#f8faff">
+        <button onclick="_aSendText()" style="background:linear-gradient(135deg,#1a4fa0,#0f2952);color:white;border:none;border-radius:9px;padding:9px 14px;cursor:pointer;font-size:.9rem">➤</button>
+      </div>
+    </div>
+  </div>
+</div>`;
+  document.body.appendChild(el);
+
+  // Sync mic label on open
+  document.getElementById('a-mic-btn') && (document.getElementById('a-mic-lbl').textContent=_aT('tap'));
+})();
+
+
+// ── LEAFLET MAP ──
+let _map=null,_marker=null,_locTimer=null,_mapReady=false;
+function _locDebounce(){clearTimeout(_locTimer);_locTimer=setTimeout(_locSearch,500);}
+function _locSearch(){
+  var val=document.getElementById('inp-loc').value.trim();
+  var dd=document.getElementById('loc-dropdown');
+  if(val.length<3){if(dd)dd.style.display='none';return;}
+  fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(val+' Canada')+'&format=json&limit=5&addressdetails=1')
+    .then(function(r){return r.json();})
+    .then(function(results){
+      if(!dd) return;
+      if(!results||!results.length){dd.style.display='none';return;}
+      dd.innerHTML='';
+      results.forEach(function(r){
+        var parts=r.display_name.split(',');
+        var main=parts[0].trim();
+        var sub=parts.slice(1,3).join(',').trim();
+        var item=document.createElement('div');
+        item.className='loc-item';
+        item.innerHTML='<strong>'+main+'</strong><span>'+sub+'</span>';
+        item.onclick=function(){
+          document.getElementById('inp-loc').value=r.display_name;
+          dd.style.display='none';
+          _initMap(parseFloat(r.lat),parseFloat(r.lon));
+          _showMapConfirm(r.display_name);
+        };
+        dd.appendChild(item);
+      });
+      dd.style.display='block';
+    }).catch(function(){});
+}
+document.addEventListener('click',function(e){
+  var dd=document.getElementById('loc-dropdown');
+  if(dd&&!dd.contains(e.target)&&e.target.id!=='inp-loc') dd.style.display='none';
+});
+function _initMap(lat,lng){
+  var el=document.getElementById('map-preview');if(!el)return;el.style.display='block';
+  if(!_mapReady){var s=document.createElement('script');s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';s.onload=function(){_mapReady=true;_renderMap(lat,lng);};document.head.appendChild(s);}
+  else{_renderMap(lat,lng);}
+}
+function _renderMap(lat,lng){
+  var el=document.getElementById('map-preview');if(!el)return;
+  if(_map){_map.remove();_map=null;}
+  _map=L.map(el,{zoomControl:true,attributionControl:false}).setView([lat,lng],15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(_map);
+  _marker=L.marker([lat,lng]).addTo(_map);
+  setTimeout(function(){if(_map)_map.invalidateSize();},100);
+}
+function _showMapConfirm(addr){var c=document.getElementById('map-confirm'),t=document.getElementById('map-addr-txt');if(c&&t){t.textContent=addr;c.style.display='block';}}
+function _mapConfirm(){var c=document.getElementById('map-confirm');if(c)c.style.display='none';}
+function _mapClear(){var mp=document.getElementById('map-preview'),mc=document.getElementById('map-confirm'),il=document.getElementById('inp-loc');if(mp)mp.style.display='none';if(mc)mc.style.display='none';if(il)il.value='';if(_map){_map.remove();_map=null;}}
+V.init();
+</script>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import{getFirestore,collection,addDoc,query,where,getDocs,limit}from"https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyDtK_bODD77BICh9O1DfhPMf2ENOcwWx8g",authDomain:"ajan-d6070.firebaseapp.com",projectId:"ajan-d6070",storageBucket:"ajan-d6070.firebasestorage.app",messagingSenderId:"515187402821",appId:"1:515187402821:web:7e30467e03fd54d4a1db2c"});
+const db=getFirestore(app);
+window._fbSave=async c=>await addDoc(collection(db,'complaints'),c);
+window._fbTrack=async ref=>{const q=query(collection(db,'complaints'),where('ref','==',ref),limit(1));const s=await getDocs(q);return s.empty?null:s.docs[0].data();};
+console.log('✅ Firebase ready');
 </script>
 </body>
 </html>
